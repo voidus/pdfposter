@@ -1,0 +1,16 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+Import('*')
+
+env.Command('testpage-a4-v.ps', 'testpages-a4.pdf',
+            'pdf2ps -dFirstPage=1 -dLastPage=1 $SOURCE $TARGET')
+env.Command('testpage-a4-h.ps', 'testpages-a4.pdf',
+            'pdf2ps -dFirstPage=2 -dLastPage=2 $SOURCE $TARGET')
+
+for mediasize in ('a4', 'a3'):
+    for postersize in ('a3',):
+        for orientation in ('h', 'v'):
+            env.Command('poster-%s-%s-on-%s.ps' % (orientation, postersize, mediasize),
+                        'testpage-a4-%s.ps' % orientation,
+                        'poster -m %s -p %s $SOURCE -o $TARGET' % (mediasize, postersize))
+
