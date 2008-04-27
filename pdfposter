@@ -99,7 +99,6 @@ def posterize(page, outpdf, width=None, height=None,
 
     
 def _scale(page, factor):
-    factor = float(factor)
     for boxname in PAGE_BOXES:
         # skip if real box does not exits (avoid fallback to other boxes)
         if not page.get(boxname):
@@ -115,7 +114,6 @@ def _scale(page, factor):
 
 
 def scale(page, width=None, height=None, **args2ignore):
-    # todo: is the crop box the correct box to work on?
     box = page.trimBox
     src_width  = box.upperRight[0] - box.lowerLeft[0] 
     src_height = box.upperRight[1] - box.lowerLeft[1] 
@@ -145,12 +143,10 @@ def main(opts, infilename, outfilename):
         # todo: crop to inbox
         scale(page, **opts.poster_size)
         posterize(page, outpdf, **opts.media_size)
-        #break
     outpdf.write(open(outfilename, 'wb'))
 
 
 def __parse_box(option, value, parser, allow_offset=False):
-    #print option, opt, value, parser
     m = pat_box.match(value)
     if not m:
         raise parser.error("I don't understand your box specification %r for %s" % (value, option))
@@ -179,7 +175,6 @@ def __parse_box(option, value, parser, allow_offset=False):
         'units_y': res['height'] or 1,
         }
     return res2
-    setattr(parser.values, option.dest, res2)
 
 def _parse_box(option, opt, value, parser, allow_offset=False):
     res = __parse_box(option, value, parser, allow_offset=False)
