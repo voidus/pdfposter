@@ -21,6 +21,19 @@ setup(
     keywords = "pdf poster",
     url          = "http://pdfposter.origo.ethz.ch/",
     download_url = "http://pdfposter.origo.ethz.ch/download",
+    classifiers = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: End Users/Desktop',
+    'Intended Audience :: System Administrators',
+    'License :: OSI Approved :: GNU General Public License (GPL)',
+    'Natural Language :: English',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Topic :: Printing',
+    'Topic :: Utilities',
+    ]
 
-    # could also include long_description, classifiers, etc.
+    # could also include long_description, etc.
 )
