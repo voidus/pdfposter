@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "pdfposter",
-    version = "0.1",
+    version = "0.2",
     scripts = ['pdfposter'],
     install_requires = ['pyPdf>1.10'],
 
