@@ -22,12 +22,15 @@ pdfposter - scale and tile PDF images/pages to print on multiple pages.
 __author__ = "Hartmut Goebel <h.goebel@goebel-cosnult.de>"
 __copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.1"
+__version__ = "0.2"
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
 
 import re
+import logging
+from logging import log
+import math
 
 # pattern for parsing user textual box spec
 pat_box = re.compile(r'''
@@ -41,22 +44,175 @@ pat_box = re.compile(r'''
 
 DEFAULT_MEDIASIZE = 'a4'
 
-papersizes = dict([(name, (x,x)) for name, x in
-                   ('inch', 72),
-                   ('mm', 72 / 25.6),
-                   ('cm', 72 / 2.56),
-                   ('m', 72 * 100 / 2.56),
-                   ('ft', 99999), # todo
-             ])
-papersizes.update({  # todo: check sizes
-    'a4': (595.276, 841.89),
-    'a3': (841.89,  1190.55)
-    #'a4': (595, 842),
-    #'a3': (842, 1191)
-    })
+# Taken from poster.c
+papersizes = {
+    'pt'  : (1, 1),
+    'inch': (72, 72),
+    'ft'  : (864, 864), # 12 inch
+    'mm'  : (72     / 25.4, 72     / 25.4),
+    'cm'  : (72     / 2.54, 72     / 2.54),
+    'm'   : (72*100 / 2.54, 72*100 / 2.54),
 
+    "monarch"  : (279, 540),
+    "statement": (396, 612),
+    "executive": (540, 720),
+    "quarto"   : (610, 780),
+    "letter"   : (612, 792),
+    "folio"    : (612, 936),
+    "legal"    : (612, 1008),
+    "tabloid"  : (792, 1224),
+    "ledger"   : (792, 1224),
+
+    "a0" : (2384, 3370),
+    "a1" : (1684, 2384),
+    "a2" : (1191, 1684),
+    "a3" : (842, 1191),
+    "a4" : (595, 842),
+    "a5" : (420, 595),
+    "a6" : (298, 420),
+    "a7" : (210, 298),
+    "a8" : (147, 210),
+    "a9" : (105, 147),
+    "a10": (74, 105),
+
+    "dinlang"   : (281, 595), # 1/3 a4
+    "envdinlang": (312, 624), # envelobe for din-lang
+
+    "b0" : (2835, 4008),
+    "b1" : (2004, 2835),
+    "b2" : (1417, 2004),
+    "b3" : (1001, 1417),
+    "b4" : (709, 1001),
+    "b5" : (499, 709),
+    "b6" : (354, 499),
+    "b7" : (249, 354),
+    "b8" : (176, 249),
+    "b9" : (125, 176),
+    "b10": (88, 125),
+
+    "c4" : (649, 918),
+    "c5" : (459, 649),
+    "c6" : (323, 459),
+
+    "jb0" : (2920, 4127),
+    "jb1" : (2064, 2920),
+    "jb2" : (1460, 2064),
+    "jb3" : (1032, 1460),
+    "jb4" : (729, 1032),
+    "jb5" : (516, 729),
+    "jb6" : (363, 516),
+    "jb7" : (258, 363),
+    "jb8" : (181, 258),
+    "jb9" : (128, 181),
+    "jb10": (91, 128),
+
+    "comm10": (298, 684),
+    "com10" : (298, 684),
+    "env10" : (298, 684),
+    }
 
 PAGE_BOXES = ("/MediaBox", "/CropBox", "/BleedBox", "/TrimBox", "/ArtBox")
+
+def rectangle2box(pdfbox):
+    return {
+        'width'   : pdfbox.upperRight[0],
+        'height'  : pdfbox.upperRight[1],
+        'offset_x': pdfbox.lowerLeft[0],
+        'offset_y': pdfbox.lowerLeft[1],
+        'unit'    : 'pt',
+        'units_x' : pdfbox.upperRight[0],
+        'units_y' : pdfbox.upperRight[1],
+        }
+
+def rotate_box(box):
+    for a,b in (
+        ('width', 'height'),
+        ('offset_x', 'offset_y'),
+        ('units_x', 'units_y')):
+        box[a], box[b] = box[b], box[a]
+
+def decide_num_pages(inbox, mediabox, posterbox, scale=None):
+    """decide on number of pages"""
+            
+    cutmargin   = {'x': 0, 'y': 0} # todo
+    whitemargin = {'x': 0, 'y': 0} # todo
+    # media and image sizes (inbox) are fixed already
+    # available drawing area per sheet
+    drawable_x = mediabox['width' ] - 2*cutmargin['x']
+    drawable_y = mediabox['height'] - 2*cutmargin['y']
+
+    log(17, 'input  dimensions: %.2f %.2f (trimbox of input page)',
+            inbox['width'], inbox['height'])
+    log(17, 'output dimensions: %.2f %.2f (poster size)',
+            posterbox['width'], posterbox['height'])
+
+    if scale:
+        # user specified scale factor
+        size_x = (inbox['width' ]-inbox['offset_x'])*scale - whitemargin['x']
+        size_y = (inbox['height']-inbox['offset_y'])*scale - whitemargin['y']
+
+        # num pages without rotation
+        nx0 = int(math.ceil( size_x / drawable_x))
+        ny0 = int(math.ceil( size_y / drawable_y))
+        # num pages with rotation
+        nx1 = int(math.ceil( size_x / drawable_y))
+        ny1 = int(math.ceil( size_y / drawable_x))
+    else:
+        # user specified output size
+
+        # ensure poster spec are portrait
+        # if postersize is landscape spec, rotate to portrait
+        if (posterbox['width' ]-posterbox['offset_x'] > \
+            posterbox['height']-posterbox['offset_y']):
+            log(18, 'Rotating poster specs to landscape format')
+            rotate_box(posterbox)
+
+        # if the input page has landscape format rotate the
+        # poster spec to landscape, too
+        if (inbox['width' ]-inbox['offset_x'] > \
+            inbox['height']-inbox['offset_y']):
+            log(18, 'Rotating poster specs since input page is landscape')
+            rotate_box(posterbox)
+        
+        # todo: remove hardcodes 5% margin
+        # num pages without rotation
+        # todo: fix assuming posterbox offset = 0,0
+        nx0 = int(math.ceil( 0.95 * posterbox['width' ] / drawable_x))
+        ny0 = int(math.ceil( 0.95 * posterbox['height'] / drawable_y))
+        # num pages with rotation
+        nx1 = int(math.ceil( 0.95 * posterbox['width']  / drawable_y))
+        ny1 = int(math.ceil( 0.95 * posterbox['height'] / drawable_x))
+
+
+        scale = min(posterbox['width' ] / (inbox['width' ]-inbox['offset_x']),
+                    posterbox['height'] / (inbox['height']-inbox['offset_y']))
+        log(18, 'Calculated page scaling factor: %f', scale)
+
+    log(17, 'Pages w/o rotation %s x %s' , nx0, ny0)
+    log(17, 'Pages w/  rotation %s x %s' , nx1, ny1)
+
+    # Decide for rotation to get the minimum page count.
+    # (Rotation is considered as media versus input page, which is
+    # totally independent of the portrait or landscape style of the
+    # final poster.)
+    rotate = (nx0*ny0) > (nx1*ny1)
+    log(17, 'Decided for rotation: %s', rotate and 'yes' or 'no')
+
+    if rotate:
+        ncols = nx1
+        nrows = ny1
+    else:
+        ncols = nx0
+        nrows = ny0
+
+    log(19, "Deciding for %d column%s and %d row%s of %s pages.",
+            ncols, (ncols==1) and "s" or "",
+            nrows, (nrows==1) and "s" or "",
+            rotate and "landscape" or "portrait")
+#    if nrows * ncols > 400:
+#        parser.error("However %dx%d pages seems ridiculous to me!" % ncols, nrows)
+    return int(ncols), int(nrows), scale, rotate
+
 
 def copyPage(page):
     from pyPdf.pdf import RectangleObject, NameObject
@@ -69,35 +225,7 @@ def copyPage(page):
     return newpage
 
 
-def posterize(page, outpdf, width=None, height=None,
-              offset_x=None, offset_y=None, **args2ignore):
-    # todo: is the crop box the correct box to work on?
-    box = page.cropBox
-    total_width  = float(box.upperRight[0])
-    total_height = float(box.upperRight[1])
-    target_media_box = RectangleObject((0,0,width,height))
-    # area to put on each page (allows for overlay of margin)
-    # (not yet implemented)
-    h_step = width -offset_x
-    v_step = height-offset_y
-    h_pos = 0
-    while h_pos < total_width:
-        v_pos = 0
-        while v_pos < total_height:
-            debug('page poffset: %.2f %.2f' %(h_pos, v_pos))
-            newpage = copyPage(page)
-            newpage.mediaBox.lowerLeft= (h_pos, v_pos)
-            newpage.mediaBox.upperRight = (h_pos + width,
-                                           v_pos + height)
-            #print newpage.cropBox
-            #print '###'
-            outpdf.addPage(newpage)
-            v_pos += v_step
-        h_pos += h_step
-
-    
-def _scale(page, factor):
-    factor = float(factor)
+def _scale_pdf_page(page, factor):
     for boxname in PAGE_BOXES:
         # skip if real box does not exits (avoid fallback to other boxes)
         if not page.get(boxname):
@@ -112,42 +240,53 @@ def _scale(page, factor):
     page[NameObject('/Contents')] = content
 
 
-def scale(page, width=None, height=None, **args2ignore):
-    # todo: is the crop box the correct box to work on?
-    box = page.trimBox
-    src_width  = box.upperRight[0] - box.lowerLeft[0] 
-    src_height = box.upperRight[1] - box.lowerLeft[1] 
-    if (height > width) != (src_height > src_width):
-        debug('rotating page')
+def posterize(outpdf, page, mediabox, posterbox, scale=None):
+    """
+    page: input page
+    mediabox : size secs of the media to print on
+    posterbox: size secs of the resulting poster
+    scale: scale factor (to be used instead of posterbox)
+    """
+    ncols, nrows, scale, rotate = decide_num_pages(rectangle2box(page.trimBox),
+                                                   mediabox, posterbox, scale)
+    _scale_pdf_page(page, scale)
+    if rotate:
         page.rotateClockwise(90)
-        src_width, src_height = src_height, src_width
-        print page
-    factor = min(width/src_width, height/src_height)
-    debug('old dimensions: %f %f' % (src_width, src_height))
-    debug('new dimensions: %f %f' % (width, height))
-    debug('page scaling factor: %f' % factor)
-    import math
-    debug('            sqrt(2): %f' % math.sqrt(2))
-    _scale(page, factor)
+        rotate_box(mediabox)
+    # area to put on each page (allows for overlay of margin)
+    h_step = mediabox['width']  - mediabox['offset_x']
+    v_step = mediabox['height'] - mediabox['offset_y']
+    h_pos = 0
+    for col in range(ncols):
+        v_pos = 0
+        for row in range(nrows):
+            log(17, 'Creating page with offset: %.2f %.2f' % (h_pos, v_pos))
+            newpage = copyPage(page)
+            newpage.mediaBox = RectangleObject((h_pos, v_pos,
+                                                h_pos + h_step,
+                                                v_pos + v_step))
+            outpdf.addPage(newpage)
+            v_pos += v_step
+        h_pos += h_step
 
-def debug(msg): print msg
 
 def main(opts, infilename, outfilename):
+    logging.basicConfig(level=20-opts.verbose, format="%(message)s")
     outpdf = PdfFileWriter()
     inpdf = PdfFileReader(open(infilename))
 
+    log(18, 'Mediasize : %(units_x)sx%(units_y)s %(unit)s' % opts.media_size)
+    log(17, '            %(width).2f %(height).2f dots' % opts.media_size)
+    log(18, 'Postersize: %(units_x)sx%(units_y)s %(unit)s' % opts.poster_size)
+    log(17, '            %(width).2f %(height).2f dots' % opts.poster_size)
+
     for i, page in enumerate(inpdf.pages):
-        debug('---- processing page %i -----' % i)
-        debug(repr(opts.poster_size))
-        # todo: crop to inbox
-        scale(page, **opts.poster_size)
-        posterize(page, outpdf, **opts.media_size)
-        #break
+        log(19, '---- processing page %i -----', i+1)
+        posterize(outpdf, page, opts.media_size, opts.poster_size)
     outpdf.write(open(outfilename, 'wb'))
 
 
 def __parse_box(option, value, parser, allow_offset=False):
-    #print option, opt, value, parser
     m = pat_box.match(value)
     if not m:
         raise parser.error("I don't understand your box specification %r for %s" % (value, option))
@@ -172,11 +311,10 @@ def __parse_box(option, value, parser, allow_offset=False):
         'offset_x': float(res['offset_x'] or 0) * unit_x,
         'offset_y': float(res['offset_y'] or 0) * unit_y,
         'unit': res['unit'],
-        'unit_x': unit_x,
-        'unit_y': unit_y,
+        'units_x': res['width'] or 1,
+        'units_y': res['height'] or 1,
         }
     return res2
-    setattr(parser.values, option.dest, res2)
 
 def _parse_box(option, opt, value, parser, allow_offset=False):
     res = __parse_box(option, value, parser, allow_offset=False)
@@ -186,6 +324,8 @@ def _parse_box(option, opt, value, parser, allow_offset=False):
 if __name__ == '__main__':
     import optparse
     parser = optparse.OptionParser('%program [options] InputFile OutputFile')
+    parser.add_option('-v', '--verbose', action='count', default=0)
+    
     group = parser.add_option_group('Define Target')
     group.add_option('-m', '--media-size', default=__parse_box('-m', DEFAULT_MEDIASIZE, parser),
                      action='callback', type='string', callback=_parse_box, 
