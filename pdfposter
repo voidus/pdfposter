@@ -22,7 +22,7 @@ pdfposter - scale and tile PDF images/pages to print on multiple pages.
 __author__ = "Hartmut Goebel <h.goebel@goebel-cosnult.de>"
 __copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.2"
+__version__ = "0.3"
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
@@ -143,8 +143,6 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
 
     log(17, 'input  dimensions: %.2f %.2f (trimbox of input page)',
             inbox['width'], inbox['height'])
-    log(17, 'output dimensions: %.2f %.2f (poster size)',
-            posterbox['width'], posterbox['height'])
 
     if scale:
         # user specified scale factor
@@ -158,6 +156,8 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
         nx1 = int(math.ceil( size_x / drawable_y))
         ny1 = int(math.ceil( size_y / drawable_x))
     else:
+        log(17, 'output dimensions: %.2f %.2f (poster size)',
+            posterbox['width'], posterbox['height'])
         # user specified output size
 
         # ensure poster spec are portrait
@@ -240,7 +240,7 @@ def _scale_pdf_page(page, factor):
     page[NameObject('/Contents')] = content
 
 
-def posterize(outpdf, page, mediabox, posterbox, scale=None):
+def posterize(outpdf, page, mediabox, posterbox, scale):
     """
     page: input page
     mediabox : size secs of the media to print on
@@ -277,12 +277,15 @@ def main(opts, infilename, outfilename):
 
     log(18, 'Mediasize : %(units_x)sx%(units_y)s %(unit)s' % opts.media_size)
     log(17, '            %(width).2f %(height).2f dots' % opts.media_size)
-    log(18, 'Postersize: %(units_x)sx%(units_y)s %(unit)s' % opts.poster_size)
-    log(17, '            %(width).2f %(height).2f dots' % opts.poster_size)
+    if opts.scale:
+        log(18, 'Scaling by: %f' % opts.scale)
+    else:
+        log(18, 'Postersize: %(units_x)sx%(units_y)s %(unit)s' % opts.poster_size)
+        log(17, '            %(width).2f %(height).2f dots' % opts.poster_size)
 
     for i, page in enumerate(inpdf.pages):
         log(19, '---- processing page %i -----', i+1)
-        posterize(outpdf, page, opts.media_size, opts.poster_size)
+        posterize(outpdf, page, opts.media_size, opts.poster_size, opts.scale)
     outpdf.write(open(outfilename, 'wb'))
 
 
@@ -323,7 +326,8 @@ def _parse_box(option, opt, value, parser, allow_offset=False):
 
 if __name__ == '__main__':
     import optparse
-    parser = optparse.OptionParser('%program [options] InputFile OutputFile')
+    parser = optparse.OptionParser('%program [options] InputFile OutputFile',
+                                   version=__version__)
     parser.add_option('-v', '--verbose', action='count', default=0)
     
     group = parser.add_option_group('Define Target')
@@ -333,6 +337,8 @@ if __name__ == '__main__':
     group.add_option('-p', '--poster-size',
                      action='callback', type='string', callback=_parse_box, 
                      help='Specify the poster size (defaults to media size). ')
+    group.add_option('-s', '--scale', type=float,
+                     help='Specify a linear scaling factor to produce the poster.')
 
 ##     parser.add_option('--info', action='store_true',
 ##                       help='Print information about scaling, rotation and number of pages')
@@ -343,6 +349,14 @@ if __name__ == '__main__':
 
     if len(args) != 2:
         parser.error('requires both input and output filename')
+    if opts.scale is not None and opts.poster_size is not None:
+        parser.error('Only one of -p/--poster-size and -s/--scale may be given at a time.')
     if not opts.poster_size:
         opts.poster_size = opts.media_size
+    if opts.scale is not None:
+        opts.poster_size = None
+        if opts.scale < 0.01:
+            parser.error("Scale value is much to small: %s" % opts.scale)
+        elif opts.scale > 1.0e6:
+            parser.error("Scale value is much to big: %s" % opts.scale)
     main(opts, *args)
