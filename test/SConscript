@@ -1,4 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
+#
+# Build requirements
+# - pdf2ps (comes with ghostscript)
+# - poster 
+#
 
 Import('*')
 
