@@ -1,1 +1,2 @@
 include pdfposter.1
+prune docutils-manpage-writer
