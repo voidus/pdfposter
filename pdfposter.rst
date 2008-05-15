@@ -81,6 +81,9 @@ OPTIONS
 	  Default is deriving the scale factor to fit a given poster
           size.
 
+Box Definition
+-----------------
+
 The *BOX* mentioned above is a specification of horizontal and
 vertical size. The syntax is as follows (with multipier being
 specified optionally):
@@ -103,7 +106,26 @@ and lower case, and can be shortened to their first few characters, as
 long as unique. For instance 'A0', 'Let'. Distance names are like
 'cm', 'inch', 'ft'.
 
+Medias are typically not quadratic but rectangular, which means width
+and hight differ. Thus using medianames is a bit tricky:
 
+:10x20cm: obviuos: 10 cm x 20 cm (portrait)
+:20x10cm: same as 10x20cm, since all boxes are rotated to portrait
+          format
+
+Now when using medianames it gets tricky:
+
+:1x1a4: same as approx. 21x29cm (21 cm x 29 cm, portrait)
+:1x2a4: same as approx. 21x58cm (21 cm x 58 cm, portrait)
+
+        This are twa a4 pages put together at the *small* side: One
+        portrait page wide and two portrait pages high.
+
+:2x1a4: same as approx. 42x29cm, which is rotated to portrait and is
+        the same a 29x42cm (29 cm x 42 cm)
+
+        This are twa a4 pages put together at the *long* side: Two
+        portrait pages wide and two portrait page high.
 
 EXAMPLES
 ============
