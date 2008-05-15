@@ -141,7 +141,8 @@ def rotate2portrait(box, which):
 
 def decide_num_pages(inbox, mediabox, posterbox, scale=None):
     """decide on number of pages"""
-            
+    # avoid changing original posterbox when handling multiple pages
+    posterbox = posterbox.copy()
     cutmargin   = {'x': 0, 'y': 0} # todo
     whitemargin = {'x': 0, 'y': 0} # todo
     # media and image sizes (inbox) are fixed already
@@ -353,7 +354,7 @@ if __name__ == '__main__':
     if opts.scale is not None and opts.poster_size is not None:
         parser.error('Only one of -p/--poster-size and -s/--scale may be given at a time.')
     if not opts.poster_size:
-        opts.poster_size = opts.media_size
+        opts.poster_size = opts.media_size.copy()
     if opts.scale is not None:
         opts.poster_size = None
         if opts.scale < 0.01:
