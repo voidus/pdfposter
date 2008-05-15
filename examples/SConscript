@@ -1,0 +1,51 @@
+# -*- mode: python ; coding: utf-8 -*-
+#
+# Build requirements
+# - ImageMagick
+#
+
+Import('*')
+
+def postersamples(pages_h, pages_v, which,
+                  tiles_h=0,
+                  numpages=0, reverse=False,
+                  rotate=False, scale_to=100):
+    inputfile = 'testpage-%s.pdf' % which
+    geo = '%ix%ia4' % (pages_h, pages_v)
+    # create pdf poster
+    poster = env.Command('poster-%s-%s.pdf' % (which, geo),
+                         inputfile,
+                         './pdfposter -ma4 -p$POSTERSIZE $SOURCE $TARGET',
+                         POSTERSIZE=geo)[0]
+
+    # montage the ppm imgages to show how they have to be glued together
+    tiles_h = tiles_h or pages_h
+    rotate = rotate and ' png:- | convert png:- -rotate -90 ' or ''
+    page_range = ''
+    if reverse:
+        # this is lazy: better way would be to get the number of pages
+        # from 'poster', but this would requier an extra builder
+        numpages = numpages or pages_h*pages_v
+        page_range = repr( range(numpages-1, -1, -1)).replace(' ', '')
+    env.Command('poster-%s-%s.png' % (which, geo), poster,
+                "montage $SOURCE$RANGE "
+                " -background '#336699' -geometry ${SCALE}x+2+2 "
+                " -tile $P_COLS "
+                " $ROTATE $TARGET",
+                P_COLS=tiles_h, ROTATE=rotate, SCALE=scale_to,
+                RANGE=page_range)
+
+# tall on two landscape sheets
+postersamples(1, 2, 'tall', reverse=1)
+# tall on two portrait sheets
+postersamples(2, 1, 'tall', rotate=0)
+
+# wide on two landscape sheets
+postersamples(1, 2, 'wide', rotate=0)
+# wide on two portrait sheets
+postersamples(2, 1, 'wide')
+
+# wide on landscape sheets (landscape a4 heigh)
+postersamples(1, 99, 'wide', scale_to=50, rotate=1)
+# wide on  portrait sheets (portrait a4 heigh)
+postersamples(99, 1, 'wide', scale_to=50, tiles_h=9)

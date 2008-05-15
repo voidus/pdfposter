@@ -8,6 +8,10 @@
 # - pdf2ps (comes with ghostscript)
 # - poster 
 #
+# For building examles
+# Build requirements
+# - ImageMagick
+#
 
 import os
 
@@ -27,3 +31,4 @@ env.Command('projectlogo.png', 'projectlogo.svg',
 
 env.Export(['env'])
 env.SConscript(dirs='test')
+env.SConscript(dirs='examples')
