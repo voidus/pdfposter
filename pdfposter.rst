@@ -56,13 +56,19 @@ desired poster or a scale factor for the image:
 OPTIONS
 ========
 
---version             show program's version number and exit
--h, --help            show this help message and exit
+General Options
+--------------------
+
+--version             Show program's version number and exit
+-h, --help            Show help message and exit
 --help-media-names    List available media and disctance names and exit
 -v, --verbose         Be verbose. Tell about scaling, rotation and number of
                       pages. Can be used more than once to increase the
                       verbosity.
 -n, --dry-run     Show what would have been done, but do not generate files.
+
+Defining Output
+-----------------
 
 -m BOX, --media-size=BOX  Specify the desired media size to print on.
           See below for *BOX*. The default is A4 in the standard
