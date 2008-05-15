@@ -75,8 +75,8 @@ Defining Output
           package.
 
 -p BOX, --poster-size=BOX    Specify the poster size. See below for *BOX*. 
-         Since pdfposter will autonomously choose for rotation, always
-         specify a 'portrait' poster size (i.e. higher then wide).
+         pdfposter will autonomously choose scaling and rotation to
+         best fit the input onto the poster (see EXAMPLES below).
 
 	 If you give neither the *-s* nor the *-p* option, the default
          poster size is identical to the media size.
@@ -126,14 +126,15 @@ Now when using medianames it gets tricky:
 :1x1a4: same as approx. 21x29cm (21 cm x 29 cm, portrait)
 :1x2a4: same as approx. 21x58cm (21 cm x 58 cm, portrait)
 
-        This are twa a4 pages put together at the *small* side: One
+        This are two a4 pages put together at the *small* side: One
         portrait page wide and two portrait pages high.
 
 :2x1a4: same as approx. 42x29cm, which is rotated to portrait and is
         the same a 29x42cm (29 cm x 42 cm)
 
-        This are twa a4 pages put together at the *long* side: Two
-        portrait pages wide and two portrait page high.
+        This are two a4 pages put together at the *long* side: Two
+        portrait pages wide and one portrait page high.
+
 
 EXAMPLES
 ============
@@ -156,7 +157,8 @@ EXAMPLES
 
 :pdfposter -s4 input.pdf out.pdf:
        Enlarge an inputfile exactly 4 times, print on the default A4
-       media, and let poster determine the number of pages required.
+       media, and let ``pdfposter`` determine the number of pages
+       required.
 
 ..
    not yet implemented
@@ -173,9 +175,24 @@ EXAMPLES
   With a4.pdf being a quite empty page, this ratio should be even
   better for filled pages.
 
-
 More examples including sample pictures can be found at
 http://pdfposter.origo.ethz.ch/wiki/examples
+
+Examples for automatic scaling
+------------------------------------
+
+* For printing 2 *portrait* A4 pages high (approx. 58cm) and let
+  pdfposter determine how many portrait pages wide, specify a lage
+  number of *vertical* pages. eg:
+
+     :pdfposter -p999x2a4 testpage-wide.pdf out.pdf:
+
+* For printing 2 *landscape* A4 pages high (approx. 20cm) and let
+  pdfposter determine how many landscape pages wide, specify a lage
+  number of *horizontal* pages. eg:
+
+     :pdfposter -p2x999a4 testpage-wide.pdf out.pdf:
+
 
 SEE ALSO
 =============
