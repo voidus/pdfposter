@@ -85,16 +85,11 @@ The *BOX* mentioned above is a specification of horizontal and
 vertical size. The syntax is as follows (with multipier being
 specified optionally):
 
-.. raw:: manpage
+  *box* = [ *multiplier* ] *unit*
 
-    .RS 2
+  *multiplier* = *number* "x" *number*
 
-
-*box* = [ *multiplier* ] *unit*
-
-*multiplier* = *number* "x" *number*
-
-*unit* = *medianame* or *distancename*
+  *unit* = *medianame* or *distancename*
 
 ..
    Only in combination with the *-i* option, the program
@@ -102,10 +97,6 @@ specified optionally):
     <offset> = +<number>,<number>
     [<offset>]
     and offset
-
-.. raw:: manpage
-
-    .RE 0 .
 
 Many international media names are recognised by the program, in upper
 and lower case, and can be shortened to their first few characters, as
@@ -149,6 +140,8 @@ EXAMPLES
 :pdfposter -m10x10cm -pa0 a4.pdf out.pdf:
   Just to show how efficient ``pdfposter`` is: This will create a file
   containing 192 pages, but only 15 times as big as the single page.
+  With a4.pdf being a quite empty page, this ratio should be even
+  better for filled pages.
 
 
 More examples including sample pictures can be found at
