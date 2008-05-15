@@ -7,7 +7,7 @@ pdfposter
 Scale and tile PDF images/pages to print on multiple pages.
 -------------------------------------------------------------
 :Author:  Hartmut Goebel <h.goebel@goebel-consult.de>
-:Version: Version 0.3
+:Version: Version 0.4
 :Copyright: GNU Public Licence v3 (GPLv3)
 :Manual section: 1
 
@@ -56,19 +56,27 @@ desired poster or a scale factor for the image:
 OPTIONS
 ========
 
---version             show program's version number and exit
--h, --help            show this help message and exit
+General Options
+--------------------
 
--v, --verbose   Be verbose. Tell about scaling, rotation and number of
-      pages. Default is silent operation.
+--version             Show program's version number and exit
+-h, --help            Show help message and exit
+--help-media-names    List available media and disctance names and exit
+-v, --verbose         Be verbose. Tell about scaling, rotation and number of
+                      pages. Can be used more than once to increase the
+                      verbosity.
+-n, --dry-run     Show what would have been done, but do not generate files.
+
+Defining Output
+-----------------
 
 -m BOX, --media-size=BOX  Specify the desired media size to print on.
           See below for *BOX*. The default is A4 in the standard
           package.
 
 -p BOX, --poster-size=BOX    Specify the poster size. See below for *BOX*. 
-         Since pdfposter will autonomously choose for rotation, always
-         specify a 'portrait' poster size (i.e. higher then wide).
+         pdfposter will autonomously choose scaling and rotation to
+         best fit the input onto the poster (see EXAMPLES below).
 
 	 If you give neither the *-s* nor the *-p* option, the default
          poster size is identical to the media size.
@@ -81,20 +89,18 @@ OPTIONS
 	  Default is deriving the scale factor to fit a given poster
           size.
 
+Box Definition
+-----------------
+
 The *BOX* mentioned above is a specification of horizontal and
 vertical size. The syntax is as follows (with multipier being
 specified optionally):
 
-.. raw:: manpage
+  *box* = [ *multiplier* ] *unit*
 
-    .RS 2
+  *multiplier* = *number* "x" *number*
 
-
-*box* = [ *multiplier* ] *unit*
-
-*multiplier* = *number* "x" *number*
-
-*unit* = *medianame* or *distancename*
+  *unit* = *medianame* or *distancename*
 
 ..
    Only in combination with the *-i* option, the program
@@ -103,15 +109,31 @@ specified optionally):
     [<offset>]
     and offset
 
-.. raw:: manpage
-
-    .RE 0 .
-
 Many international media names are recognised by the program, in upper
 and lower case, and can be shortened to their first few characters, as
 long as unique. For instance 'A0', 'Let'. Distance names are like
 'cm', 'inch', 'ft'.
 
+Medias are typically not quadratic but rectangular, which means width
+and hight differ. Thus using medianames is a bit tricky:
+
+:10x20cm: obviuos: 10 cm x 20 cm (portrait)
+:20x10cm: same as 10x20cm, since all boxes are rotated to portrait
+          format
+
+Now when using medianames it gets tricky:
+
+:1x1a4: same as approx. 21x29cm (21 cm x 29 cm, portrait)
+:1x2a4: same as approx. 21x58cm (21 cm x 58 cm, portrait)
+
+        This are two a4 pages put together at the *small* side: One
+        portrait page wide and two portrait pages high.
+
+:2x1a4: same as approx. 42x29cm, which is rotated to portrait and is
+        the same a 29x42cm (29 cm x 42 cm)
+
+        This are two a4 pages put together at the *long* side: Two
+        portrait pages wide and one portrait page high.
 
 
 EXAMPLES
@@ -135,7 +157,8 @@ EXAMPLES
 
 :pdfposter -s4 input.pdf out.pdf:
        Enlarge an inputfile exactly 4 times, print on the default A4
-       media, and let poster determine the number of pages required.
+       media, and let ``pdfposter`` determine the number of pages
+       required.
 
 ..
    not yet implemented
@@ -149,10 +172,27 @@ EXAMPLES
 :pdfposter -m10x10cm -pa0 a4.pdf out.pdf:
   Just to show how efficient ``pdfposter`` is: This will create a file
   containing 192 pages, but only 15 times as big as the single page.
-
+  With a4.pdf being a quite empty page, this ratio should be even
+  better for filled pages.
 
 More examples including sample pictures can be found at
 http://pdfposter.origo.ethz.ch/wiki/examples
+
+Examples for automatic scaling
+------------------------------------
+
+* For printing 2 *portrait* A4 pages high (approx. 58cm) and let
+  pdfposter determine how many portrait pages wide, specify a lage
+  number of *vertical* pages. eg:
+
+     :pdfposter -p999x2a4 testpage-wide.pdf out.pdf:
+
+* For printing 2 *landscape* A4 pages high (approx. 20cm) and let
+  pdfposter determine how many landscape pages wide, specify a lage
+  number of *horizontal* pages. eg:
+
+     :pdfposter -p2x999a4 testpage-wide.pdf out.pdf:
+
 
 SEE ALSO
 =============

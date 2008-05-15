@@ -1,1 +1,3 @@
 include pdfposter.1
+exclude projectlogo.*
+prune docutils-manpage-writer
