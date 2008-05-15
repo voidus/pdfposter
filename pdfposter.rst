@@ -59,6 +59,7 @@ OPTIONS
 --version             show program's version number and exit
 -h, --help            show this help message and exit
 
+-n, --dry-run     Show what would have been done, but do not generate files.
 -v, --verbose   Be verbose. Tell about scaling, rotation and number of
       pages. Default is silent operation.
 
