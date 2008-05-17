@@ -20,7 +20,7 @@ Scale and tile PDF images/pages to print on multiple pages.
 SYNOPSIS
 ==========
 
-``poster`` <options> infile outfile
+``pdfposter`` <options> infile outfile
 
 DESCRIPTION
 ============
