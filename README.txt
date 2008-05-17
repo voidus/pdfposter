@@ -20,6 +20,10 @@ PDF file, maybe containing multiple pages together building the
 poster.
 The input page will be scaled to obtain the desired size.
 
+This is much like ``poster`` does for Postscript files, but working
+with PDF. Since sometimes poster does not like your files converted
+from PDF. :-) Indeed ``pdfposter`` was inspired by ``poster``.
+
 For more information please refere to the manpage or visit
 the `project homepage <http://pdfposter.origo.ethz.ch/>`_.
 
