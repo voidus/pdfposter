@@ -39,7 +39,7 @@ pat_box = re.compile(r'''
                  (?P<offset_x> \d+\.? | \d*\.\d+)
                  ,
                  (?P<offset_y> \d+\.? | \d*\.\d+) ) ?
-     (?P<unit> [a-z][a-z0-9\-\\_]?)                # unit
+     (?P<unit> [a-z][a-z0-9\-\\_]*)                # unit
      ''', re.X+re.I)
 
 DEFAULT_MEDIASIZE = 'a4'
