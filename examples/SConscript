@@ -34,6 +34,10 @@ def postersamples(pages_h, pages_v, which,
                 " $ROTATE $TARGET",
                 P_COLS=tiles_h, ROTATE=rotate, SCALE=scale_to,
                 RANGE=page_range)
+env.Command('testpage-tall.png', 'testpage-tall.pdf',
+            "convert $SOURCE -background '#336699' $TARGET")
+env.Command('testpage-wide.png', 'testpage-wide.pdf',
+            "convert $SOURCE -background '#336699' $TARGET")
 
 # tall on two landscape sheets
 postersamples(1, 2, 'tall', reverse=1)

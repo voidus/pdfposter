@@ -12,8 +12,8 @@
    height="331.62186"
    id="svg1"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/home/hartmut/projekte/software/misc"
-   sodipodi:docname="logo.svg"
+   sodipodi:docbase="/home/hartmut/projekte/software/misc/pdfposter"
+   sodipodi:docname="projectlogo.svg"
    sodipodi:version="0.32"
    width="306.23346"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -827,19 +827,19 @@
         <dc:publisher>
           <cc:Agent
              rdf:about="http://www.openclipart.org">
-            <dc:title>Harmut Goebel</dc:title>
+            <dc:title>Hartmut Goebel</dc:title>
           </cc:Agent>
         </dc:publisher>
         <dc:creator>
           <cc:Agent
              rdf:about="">
-            <dc:title>Harmut Goebel</dc:title>
+            <dc:title>Hartmut Goebel</dc:title>
           </cc:Agent>
         </dc:creator>
         <dc:rights>
           <cc:Agent
              rdf:about="">
-            <dc:title>Harmut Goebel</dc:title>
+            <dc:title>Hartmut Goebel</dc:title>
           </cc:Agent>
         </dc:rights>
         <dc:date />

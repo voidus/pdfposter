@@ -9,7 +9,7 @@ Scale and tile PDF images/pages to print on multiple pages.
 -------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@goebel-consult.de>
-:Version: Version 0.4
+:Version: Version 0.4.1
 :Copyright: GNU Public Licence v3 (GPLv3)
 :Homepage: http://pdfposter.origo.ethz.ch/
 
@@ -19,6 +19,10 @@ PDF file, normally printing on a single page. The output is again a
 PDF file, maybe containing multiple pages together building the
 poster.
 The input page will be scaled to obtain the desired size.
+
+This is much like ``poster`` does for Postscript files, but working
+with PDF. Since sometimes poster does not like your files converted
+from PDF. :-) Indeed ``pdfposter`` was inspired by ``poster``.
 
 For more information please refere to the manpage or visit
 the `project homepage <http://pdfposter.origo.ethz.ch/>`_.
