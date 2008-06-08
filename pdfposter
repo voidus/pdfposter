@@ -153,8 +153,8 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
 
     rotate = False
 
-    inbox_x = inbox['width' ]-inbox['offset_x']
-    inbox_y = inbox['height']-inbox['offset_y']
+    inbox_x = float(inbox['width' ]-inbox['offset_x'])
+    inbox_y = float(inbox['height']-inbox['offset_y'])
     log(17, 'input  dimensions: %.2f %.2f (trimbox of input page)',
             inbox_x, inbox_y)
 
@@ -234,8 +234,8 @@ def _scale_pdf_page(page, factor):
         if not page.get(boxname):
             continue
         box = getRectangle(page, boxname, None)
-        box.lowerLeft  = [i * factor for i in box.lowerLeft ]
-        box.upperRight = [i * factor for i in box.upperRight]
+        box.lowerLeft  = [float(i) * factor for i in box.lowerLeft ]
+        box.upperRight = [float(i) * factor for i in box.upperRight]
         #print boxname, type(box), box
     # put transformation matrix in front of page content
     content = ContentStream(page["/Contents"].getObject(), page.pdf)
