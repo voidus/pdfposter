@@ -252,6 +252,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     """
     ncols, nrows, scale, rotate = decide_num_pages(rectangle2box(page.trimBox),
                                                    mediabox, posterbox, scale)
+    mediabox = mediabox.copy()
     _scale_pdf_page(page, scale)
     if rotate:
         page.rotateClockwise(90)
