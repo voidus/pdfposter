@@ -44,15 +44,18 @@ pat_box = re.compile(r'''
 
 DEFAULT_MEDIASIZE = 'a4'
 
+mm = 72 / 25.4
+
 # Taken from poster.c
 papersizes = {
     'pt'  : (1, 1),
     'inch': (72, 72),
     'ft'  : (864, 864), # 12 inch
-    'mm'  : (72     / 25.4, 72     / 25.4),
-    'cm'  : (72     / 2.54, 72     / 2.54),
-    'meter':(72*100 / 2.54, 72*100 / 2.54),
+    'mm'  : (mm, mm),
+    'cm'  : (10 *mm, 10 *mm),
+    'meter':(1000* mm, 1000* mm),
 
+    # American page sizes (taken from psposter.c)
     "monarch"  : (279, 540),
     "statement": (396, 612),
     "executive": (540, 720),
@@ -63,6 +66,7 @@ papersizes = {
     "tabloid"  : (792, 1224),
     "ledger"   : (792, 1224),
 
+    # ISO page sizes (taken from psposter.c)
     "a0" : (2384, 3370),
     "a1" : (1684, 2384),
     "a2" : (1191, 1684),
@@ -94,6 +98,7 @@ papersizes = {
     "c5" : (459, 649),
     "c6" : (323, 459),
 
+    # Japanese page sizes (taken from psposter.c)
     "jb0" : (2920, 4127),
     "jb1" : (2064, 2920),
     "jb2" : (1460, 2064),
