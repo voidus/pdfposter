@@ -22,7 +22,7 @@ pdfposter - scale and tile PDF images/pages to print on multiple pages.
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
 __copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.4.3"
+__version__ = "0.4.4"
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
@@ -34,7 +34,8 @@ import math
 
 # pattern for parsing user textual box spec
 pat_box = re.compile(r'''
-     ( (?P<width> \d*) x (?P<height> \d*) )?       # width "x" height
+     ( (?P<width>  (\d*\.)? \d*) x                 # width "x" height
+       (?P<height> (\d*\.)? \d*) )? 
      (?P<offset> \+                                # "+" offset_x "," offset_y
                  (?P<offset_x> \d+\.? | \d*\.\d+)
                  ,
