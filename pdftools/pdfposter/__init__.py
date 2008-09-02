@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-pdfposter - scale and tile PDF images/pages to print on multiple pages.
+pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 """
 #
 # Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>
@@ -27,21 +27,9 @@ __version__ = "0.4.4"
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
 
-import re
 import logging
 from logging import log
 import math
-
-# pattern for parsing user textual box spec
-pat_box = re.compile(r'''
-     ( (?P<width>  (\d*\.)? \d*) x                 # width "x" height
-       (?P<height> (\d*\.)? \d*) )? 
-     (?P<offset> \+                                # "+" offset_x "," offset_y
-                 (?P<offset_x> \d+\.? | \d*\.\d+)
-                 ,
-                 (?P<offset_y> \d+\.? | \d*\.\d+) ) ?
-     (?P<unit> [a-z][a-z0-9\-\\_]*)                # unit
-     ''', re.X+re.I)
 
 DEFAULT_MEDIASIZE = 'a4'
 
@@ -298,86 +286,3 @@ def main(opts, infilename, outfilename):
         posterize(outpdf, page, opts.media_size, opts.poster_size, opts.scale)
     if not opts.dry_run:
         outpdf.write(open(outfilename, 'wb'))
-
-
-def __parse_box(option, value, parser, allow_offset=False):
-    m = pat_box.match(value)
-    if not m:
-        raise parser.error("I don't understand your box specification %r for %s" % (value, option))
-    res = m.groupdict()
-    if not allow_offset and res['offset'] is not None:
-        raise parser.errot('Offset not allowed in box definition for %s' % option)
-    # res['offset'] is only used for error checking, remove it
-    del res['offset']
-
-    # get meassures of unit
-    unit = res['unit'].lower()
-    if not papersizes.has_key(unit):
-        unit = [name for name in papersizes.keys()
-                if name.startswith(unit)]
-        if len(unit) != 1:
-            parser.error('Your box spec %r for %s is not unique, give more chars.' % (res['unit'], option))
-        unit = unit[0]
-    unit_x, unit_y = papersizes[unit]
-    res2 = {
-        'width'   : float(res['width'] or 1) * unit_x,
-        'height'  : float(res['height'] or 1) * unit_y,
-        'offset_x': float(res['offset_x'] or 0) * unit_x,
-        'offset_y': float(res['offset_y'] or 0) * unit_y,
-        'unit': res['unit'],
-        'units_x': res['width'] or 1,
-        'units_y': res['height'] or 1,
-        }
-    return res2
-
-def _parse_box(option, opt, value, parser, allow_offset=False):
-    res = __parse_box(option, value, parser, allow_offset=False)
-    setattr(parser.values, option.dest, res)
-
-
-if __name__ == '__main__':
-    import optparse
-    parser = optparse.OptionParser('%program [options] InputFile OutputFile',
-                                   version=__version__)
-    parser.add_option('--help-media-names', action='store_true',
-                      help='List available media and disctance names')
-    parser.add_option('-v', '--verbose', action='count', default=0,
-                      help='Be verbose. Tell about scaling, rotation and number of pages. Can be used more than once to increase the verbosity. ')
-    parser.add_option('-n', '--dry-run', action='store_true',
-                      help='Show what would have been done, but do not generate files.')
-    
-    group = parser.add_option_group('Define Target')
-    group.add_option('-m', '--media-size',
-                     default=__parse_box('-m', DEFAULT_MEDIASIZE, parser),
-                     action='callback', type='string', callback=_parse_box, 
-                     help='Specify the size of the output media size (default: %s)' % DEFAULT_MEDIASIZE)
-    group.add_option('-p', '--poster-size',
-                     action='callback', type='string', callback=_parse_box, 
-                     help='Specify the poster size (defaults to media size). ')
-    group.add_option('-s', '--scale', type=float,
-                     help='Specify a linear scaling factor to produce the poster.')
-
-    opts, args = parser.parse_args()
-
-    if opts.help_media_names:
-        names = papersizes.keys()
-        names.sort()
-        parser.print_usage()
-        print parser.formatter.format_heading('Avialable media and distance names')
-        parser.formatter.indent()
-        print parser.formatter.format_description(' '.join(names))
-        raise SystemExit(0)
-
-    if len(args) != 2:
-        parser.error('requires both input and output filename')
-    if opts.scale is not None and opts.poster_size is not None:
-        parser.error('Only one of -p/--poster-size and -s/--scale may be given at a time.')
-    if not opts.poster_size:
-        opts.poster_size = opts.media_size.copy()
-    if opts.scale is not None:
-        opts.poster_size = None
-        if opts.scale < 0.01:
-            parser.error("Scale value is much to small: %s" % opts.scale)
-        elif opts.scale > 1.0e6:
-            parser.error("Scale value is much to big: %s" % opts.scale)
-    main(opts, *args)
