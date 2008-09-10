@@ -73,7 +73,7 @@ def _parse_box(option, opt, value, parser, allow_offset=False):
 
 def run():
     import optparse
-    parser = optparse.OptionParser('%program [options] InputFile OutputFile',
+    parser = optparse.OptionParser('%prog [options] InputFile OutputFile',
                                    version=__version__)
     parser.add_option('--help-media-names', action='store_true',
                       help='List available media and disctance names')
