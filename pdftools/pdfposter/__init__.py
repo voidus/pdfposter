@@ -244,19 +244,21 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     posterbox: size secs of the resulting poster
     scale: scale factor (to be used instead of posterbox)
     """
-    ncols, nrows, scale, rotate = decide_num_pages(rectangle2box(page.trimBox),
-                                                   mediabox, posterbox, scale)
+    inbox = rectangle2box(page.trimBox)
+    ncols, nrows, scale, rotate = decide_num_pages(inbox, mediabox,
+                                                   posterbox, scale)
     mediabox = mediabox.copy()
     _scale_pdf_page(page, scale)
     if rotate:
         page.rotateClockwise(90)
+        rotate_box(inbox)
         rotate_box(mediabox)
     # area to put on each page (allows for overlay of margin)
     h_step = mediabox['width']  - mediabox['offset_x']
     v_step = mediabox['height'] - mediabox['offset_y']
-    h_pos = 0
+    h_pos = float(inbox['offset_x'])
     for col in range(ncols):
-        v_pos = 0
+        v_pos = float(inbox['offset_y'])
         for row in range(nrows):
             log(17, 'Creating page with offset: %.2f %.2f' % (h_pos, v_pos))
             newpage = copyPage(page)
