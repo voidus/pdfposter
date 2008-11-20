@@ -18,6 +18,23 @@ import ez_setup
 ez_setup.use_setuptools()
 
 from setuptools import setup, find_packages
+additional_keywords ={}
+
+try:
+    import py2exe
+except ImportError:
+    py2exe = None
+
+if py2exe:
+    resources = {
+        #'other_resources': [(u"VERSIONTAG",1,myrevisionstring)],
+        'icon_resources' : [(1,'projectlogo.ico')]
+        }
+    additional_keywords.update({
+        'windows': [],
+        'console': [dict(script='pdfposter', **resources)],
+        'zipfile': None,
+        })
 
 setup(
     name = "pdfposter",
@@ -42,7 +59,7 @@ setup(
     url          = "http://pdfposter.origo.ethz.ch/",
     download_url = "http://pdfposter.origo.ethz.ch/download",
     classifiers = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Environment :: Console',
     'Intended Audience :: Developers',
     'Intended Audience :: End Users/Desktop',
@@ -53,7 +70,28 @@ setup(
     'Programming Language :: Python',
     'Topic :: Printing',
     'Topic :: Utilities',
-    ]
+    ],
 
-    # could also include long_description, etc.
+
+    # these are for easy_install (used by bdist_*)
+    zip_safe = True,
+    entry_points = {
+        "console_scripts": [
+            "pdfposter = pdftools.pdfposter.cmd:run",
+        ],
+    },
+    # these are for py2exe
+    options = {
+        # bundle_files 1: bundle everything, including the Python interpreter 
+        # bundle_files 2: bundle everything but the Python interpreter
+        # bundle_files 3: don't bundle
+       "py2exe":{"optimize": 2,
+                 "bundle_files": 1,
+                 "includes": [],
+                }
+        },
+    **kw
 )
+
+import glob, os
+for fn in glob.glob('*.egg-link'): os.remove(fn)
