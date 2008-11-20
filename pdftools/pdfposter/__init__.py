@@ -22,7 +22,7 @@ pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
 __copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.4.4"
+__version__ = "0.4.5"
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject

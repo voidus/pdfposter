@@ -38,7 +38,7 @@ if py2exe:
 
 setup(
     name = "pdfposter",
-    version = "0.4.4",
+    version = "0.4.5",
     scripts = ['pdfposter'],
     install_requires = ['pyPdf>1.10'],
 
