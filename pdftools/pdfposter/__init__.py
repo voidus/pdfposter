@@ -244,7 +244,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     posterbox: size secs of the resulting poster
     scale: scale factor (to be used instead of posterbox)
     """
-    inbox = rectangle2box(page.trimBox)
+    inbox = rectangle2box(page.artBox)
     ncols, nrows, scale, rotate = decide_num_pages(inbox, mediabox,
                                                    posterbox, scale)
     mediabox = mediabox.copy()
@@ -256,15 +256,25 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     # area to put on each page (allows for overlay of margin)
     h_step = mediabox['width']  - mediabox['offset_x']
     v_step = mediabox['height'] - mediabox['offset_y']
-    h_pos = float(inbox['offset_x'])
+    
+    trimbox = rectangle2box(page.trimBox)
+    h_pos = float(trimbox['offset_x'])
+    h_max, v_max = float(trimbox['width']), float(trimbox['height'])
     for col in range(ncols):
-        v_pos = float(inbox['offset_y'])
+        v_pos = float(trimbox['offset_y'])
         for row in range(nrows):
             log(17, 'Creating page with offset: %.2f %.2f' % (h_pos, v_pos))
             newpage = copyPage(page)
+            # todo: if remaining area is smaller than mediaBox, add a
+            # transparent fill box behind, so the real content is in
+            # the lower left corner
             newpage.mediaBox = RectangleObject((h_pos, v_pos,
                                                 h_pos + h_step,
                                                 v_pos + v_step))
+            newpage.trimBox = RectangleObject((h_pos, v_pos,
+                                               min(h_max, h_pos + h_step),
+                                               min(v_max, v_pos + v_step)))
+            newpage.cropBox = newpage.artBox = newpage.trimBox
             outpdf.addPage(newpage)
             v_pos += v_step
         h_pos += h_step
