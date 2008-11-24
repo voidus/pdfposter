@@ -90,7 +90,7 @@ setup(
                  "includes": [],
                 }
         },
-    **kw
+    **additional_keywords
 )
 
 import glob, os
