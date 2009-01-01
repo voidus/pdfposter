@@ -283,7 +283,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
 def main(opts, infilename, outfilename):
     logging.basicConfig(level=20-opts.verbose, format="%(message)s")
     outpdf = PdfFileWriter()
-    inpdf = PdfFileReader(open(infilename))
+    inpdf = PdfFileReader(open(infilename, 'rb'))
 
     log(18, 'Mediasize : %(units_x)sx%(units_y)s %(unit)s' % opts.media_size)
     log(17, '            %(width).2f %(height).2f dots' % opts.media_size)
