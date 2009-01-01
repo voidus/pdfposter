@@ -17,6 +17,7 @@ import os
 
 ENV = {
     'PYTHONPATH': os.environ['PYTHONPATH'],
+    'PATH': os.environ['PATH'],
     }
 
 env = Environment(ENV=ENV)

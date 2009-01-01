@@ -22,7 +22,7 @@ pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
 __copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.4.5"
+__version__ = "0.4.5a"
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
@@ -283,7 +283,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
 def main(opts, infilename, outfilename):
     logging.basicConfig(level=20-opts.verbose, format="%(message)s")
     outpdf = PdfFileWriter()
-    inpdf = PdfFileReader(open(infilename))
+    inpdf = PdfFileReader(open(infilename, 'rb'))
 
     log(18, 'Mediasize : %(units_x)sx%(units_y)s %(unit)s' % opts.media_size)
     log(17, '            %(width).2f %(height).2f dots' % opts.media_size)

@@ -15,7 +15,7 @@ def postersamples(pages_h, pages_v, which,
     # create pdf poster
     poster = env.Command('poster-%s-%s.pdf' % (which, geo),
                          inputfile,
-                         './pdfposter -ma4 -p$POSTERSIZE $SOURCE $TARGET',
+                         'pdfposter -ma4 -p$POSTERSIZE $SOURCE $TARGET',
                          POSTERSIZE=geo)[0]
 
     # montage the ppm imgages to show how they have to be glued together
