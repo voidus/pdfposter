@@ -38,9 +38,12 @@ if py2exe:
 
 setup(
     name = "pdftools.pdfposter",
-    version = "0.4.6",
+    version = "0.5.0",
     #scripts = ['pdfposter'],
     install_requires = ['pyPdf>1.10'],
+
+    packages=find_packages(exclude=['ez_setup']),
+    namespace_packages=['pdftools'],
 
     package_data = {
         # If any package contains *.txt or *.rst files, include them:
@@ -71,7 +74,6 @@ setup(
     'Topic :: Printing',
     'Topic :: Utilities',
     ],
-
 
     # these are for easy_install (used by bdist_*)
     zip_safe = True,

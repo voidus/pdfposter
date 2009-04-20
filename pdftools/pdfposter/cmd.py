@@ -3,7 +3,7 @@
 pdftools.pdfposter.cmd - scale and tile PDF images/pages to print on multiple pages.
 """
 #
-# Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2009 by Hartmut Goebel <h.goebel@goebel-consult.de>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@ pdftools.pdfposter.cmd - scale and tile PDF images/pages to print on multiple pa
 #
 
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
-__copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
+__copyright__ = "Copyright 2008-2009 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
 
-from . import main, __version__, DEFAULT_MEDIASIZE, papersizes
+from . import main, __version__, DEFAULT_MEDIASIZE, papersizes, DecryptionError
 import re
 
 # pattern for parsing user textual box spec
@@ -116,7 +116,11 @@ def run():
             parser.error("Scale value is much to small: %s" % opts.scale)
         elif opts.scale > 1.0e6:
             parser.error("Scale value is much to big: %s" % opts.scale)
-    main(opts, *args)
+
+    try:
+        main(opts, *args)
+    except DecryptionError, e:
+        raise SystemExit(str(e))
 
 
 if __name__ == '__main__':

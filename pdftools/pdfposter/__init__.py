@@ -3,7 +3,7 @@
 pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 """
 #
-# Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2009 by Hartmut Goebel <h.goebel@goebel-consult.de>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 #
 
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
-__copyright__ = "Copyright 2008 by Hartmut Goebel <h.goebel@goebel-consult.de>"
+__copyright__ = "Copyright 2008-2009 by Hartmut Goebel <h.goebel@goebel-consult.de>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.4.6"
+__version__ = "0.5.0"
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
@@ -104,6 +104,9 @@ papersizes = {
     "com10" : (298, 684),
     "env10" : (298, 684),
     }
+
+class DecryptionError(ValueError): pass
+    
 
 PAGE_BOXES = ("/MediaBox", "/CropBox", "/BleedBox", "/TrimBox", "/ArtBox")
 
@@ -279,11 +282,21 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
             v_pos += v_step
         h_pos += h_step
 
+def password_hook():
+    import getpass
+    return getpass.getpass()
 
-def main(opts, infilename, outfilename):
+def main(opts, infilename, outfilename, password_hook=password_hook):
     logging.basicConfig(level=20-opts.verbose, format="%(message)s")
     outpdf = PdfFileWriter()
     inpdf = PdfFileReader(open(infilename, 'rb'))
+
+    if inpdf.isEncrypted:
+        log(16, 'File is encrypted')
+        # try empty password first
+        if not inpdf.decrypt(''):
+            if not inpdf.decrypt(password_hook()):
+                raise DecryptionError("Can't decrypt PDF. Wrong Password?")
 
     log(18, 'Mediasize : %(units_x)sx%(units_y)s %(unit)s' % opts.media_size)
     log(17, '            %(width).2f %(height).2f dots' % opts.media_size)
