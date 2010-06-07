@@ -197,6 +197,9 @@ Examples for automatic scaling
 SEE ALSO
 =============
 
-``poster``\(1)
+``poster``\(1),
+``pdfnup``\(1) http://pypi.python.org/pypi/pdfnup/,
+``pdfsplit``\(1) http://pypi.python.org/pypi/pdfsplit/,
+``pdfgrid``\(1) http://pypi.python.org/pypi/pdfgrid/
 
 Project Homepage http://pdfposter.origo.ethz.ch/
