@@ -27,8 +27,9 @@ env.Export(['env'])
 env.SConscript(dirs='test')
 env.SConscript(dirs='examples')
 
-env.Command('pdfposter.1', 'pdfposter.rst',
-            'python -S ./docutils-manpage-writer/rst2man.py $SOURCE $TARGET')
+env.Command(['doc/pdfposter.1', 'doc/pdfposter.html'],
+            'pdfposter.rst',
+            'python setup.py build_docs')
 
 # create PNG projectlogo for project homepage
 env.Command('projectlogo.png', 'projectlogo.svg',
