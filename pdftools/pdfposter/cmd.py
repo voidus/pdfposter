@@ -43,7 +43,7 @@ def __parse_box(option, value, parser, allow_offset=False):
         raise parser.error("I don't understand your box specification %r for %s" % (value, option))
     res = m.groupdict()
     if not allow_offset and res['offset'] is not None:
-        raise parser.errot('Offset not allowed in box definition for %s' % option)
+        raise parser.error('Offset not allowed in box definition for %s' % option)
     # res['offset'] is only used for error checking, remove it
     del res['offset']
 
@@ -68,7 +68,7 @@ def __parse_box(option, value, parser, allow_offset=False):
     return res2
 
 def _parse_box(option, opt, value, parser, allow_offset=False):
-    res = __parse_box(option, value, parser, allow_offset=False)
+    res = __parse_box(option, value, parser, allow_offset=allow_offset)
     setattr(parser.values, option.dest, res)
 
 def run():
@@ -85,7 +85,8 @@ def run():
     group = parser.add_option_group('Define Target')
     group.add_option('-m', '--media-size',
                      default=__parse_box('-m', DEFAULT_MEDIASIZE, parser),
-                     action='callback', type='string', callback=_parse_box, 
+                     action='callback', type='string', callback=_parse_box,
+                     callback_kwargs={'allow_offset': True},
                      help='Specify the size of the output media size (default: %s)' % DEFAULT_MEDIASIZE)
     group.add_option('-p', '--poster-size',
                      action='callback', type='string', callback=_parse_box, 

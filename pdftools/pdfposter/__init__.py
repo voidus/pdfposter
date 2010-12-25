@@ -145,8 +145,8 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
     whitemargin = {'x': 0, 'y': 0} # todo
     # media and image sizes (inbox) are fixed already
     # available drawing area per sheet
-    drawable_x = mediabox['width' ] - 2*cutmargin['x']
-    drawable_y = mediabox['height'] - 2*cutmargin['y']
+    drawable_x = mediabox['width' ] - mediabox['offset_x'] - 2*cutmargin['x']
+    drawable_y = mediabox['height'] - mediabox['offset_y'] - 2*cutmargin['y']
 
     rotate = False
 
@@ -300,6 +300,7 @@ def main(opts, infilename, outfilename, password_hook=password_hook):
 
     log(18, 'Mediasize : %(units_x)sx%(units_y)s %(unit)s' % opts.media_size)
     log(17, '            %(width).2f %(height).2f dots' % opts.media_size)
+    log(18, 'Offset    : %(offset_x).2f , %(offset_y).2f dots' % opts.media_size)
     if opts.scale:
         log(18, 'Scaling by: %f' % opts.scale)
     else:
