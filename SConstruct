@@ -36,7 +36,7 @@ env.Command('projectlogo.png', 'projectlogo.svg',
             'inkscape -z -f $SOURCE -e $TARGET --export-height=100')
 
 hires_logo = env.Command('build/icons/projectlogo-hires.png', 'projectlogo.svg',
-                         'inkscape -z -f $SOURCE -e $TARGET --dpi=300')
+                         'inkscape -z -f $SOURCE -e $TARGET')
 
 icon_parts = [
     env.Command('build/icons/project-${WIDTH}x${HEIGHT}.pnm', hires_logo,
