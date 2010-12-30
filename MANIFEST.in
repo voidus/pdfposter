@@ -1,5 +1,4 @@
-include pdfposter.1
+recursive-include doc *.1 *.html
 include COPYING
 include README.txt
 exclude projectlogo.*
-prune docutils-manpage-writer
