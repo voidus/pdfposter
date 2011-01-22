@@ -9,7 +9,6 @@ from reportlab.lib.pagesizes import A4, legal, landscape
 from reportlab.pdfgen.canvas import Canvas
 
 
-# not used anymore
 def genTestFile(path, numPages):
     """Generate a PDF doc with a chess-board laout numbers on each page.
     Usefull for debugging cropped pages."""
@@ -21,8 +20,8 @@ def genTestFile(path, numPages):
     for i in range(numPages):
         canv.setFont("Helvetica", 7*mm)
         canv.setStrokeColor(black)
-        for x in range(size[0] / stepSize):
-            for y in range(size[1] / stepSize):
+        for x in range(int(size[0] / stepSize)):
+            for y in range(int(size[1] / stepSize)):
                 text = u"%x%x" % (x,y)
                 if (x+y) % 2 == 1:
                     canv.setFillColor(pink)
