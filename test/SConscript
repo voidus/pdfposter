@@ -19,3 +19,5 @@ for mediasize in ('a4', 'a3'):
                         'testpage-a4-%s.ps' % orientation,
                         'poster -m %s -p %s $SOURCE -o $TARGET' % (mediasize, postersize))
 
+env.Command('chessboard.pdf', 'gen-chessboard.py',
+            'python $SOURCE $TARGET')
