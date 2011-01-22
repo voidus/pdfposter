@@ -147,6 +147,3 @@ setup(
         },
     **additional_keywords
 )
-
-import glob, os
-for fn in glob.glob('*.egg-link'): os.remove(fn)
