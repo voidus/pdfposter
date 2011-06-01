@@ -40,8 +40,8 @@ Requirements and Installation
 * `pyPdf`__ >= 1.11.
 
 __ http://www.python.org/download/
-__ http://pybrary.net/pyPdf/
 __ http://pypi.python.org/pypi/setuptools
+__ http://pybrary.net/pyPdf/
 
 
 :Hints for installing on Windows: Following the links above you will
