@@ -40,8 +40,11 @@ def genTestFile(path, numPages):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument('-n','--num-pages',
+                        default=1, type=int,
+                        help='number of pages to generate (default: %(default)s)')
     parser.add_argument('filename',
                         default="chessboard.pdf",
                         help='Name of output file (default: %(default)s')
     args = parser.parse_args()
-    genTestFile(args.filename, 4)
+    genTestFile(args.filename, args.num_pages)
