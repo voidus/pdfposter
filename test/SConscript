@@ -25,3 +25,7 @@ env.Command('chessboard.ps', 'chessboard.pdf',
             'pdf2ps -dFirstPage=1 -dLastPage=1 $SOURCE $TARGET')
 env.Command('chessboard-poster.ps', 'chessboard.ps',
             'poster -vv -m 21x29+5,10cm $SOURCE -o $TARGET')
+
+env.Command(['allboxes-noboxes.pdf', 'allboxes.pdf'],
+            'gen-allboxespage.py',
+            'python $SOURCE $TARGETS')
