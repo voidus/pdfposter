@@ -1,0 +1,10 @@
+*       text=auto
+
+*.odt	-text
+
+# image files and such
+*.pdf   -text
+*.ico   -text
+*.icns  -text
+*.tiff  -text
+*.png   -text
