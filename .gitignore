@@ -1,0 +1,27 @@
+*.py[co]
+*~
+.#*
+
+/venv
+/build
+/dist
+/*.egg-info
+/.sconsign.dblite
+
+/bin
+/projectlogo.ico
+/projectlogo.png
+
+# /doc/
+/doc/*.1
+/doc/*.html
+
+# /examples/
+/examples/poster-wide-*.png
+/examples/poster-wide-*.pdf
+/examples/poster-tall-*.pdf
+/examples/poster-tall-*.png
+
+# /test/
+/test/chessboard.pdf
+/test/*.ps
