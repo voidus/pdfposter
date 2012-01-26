@@ -269,7 +269,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     h_pos = float(trimbox['offset_x'])
     h_max, v_max = float(trimbox['width']), float(trimbox['height'])
     for col in range(ncols):
-        v_pos = float(trimbox['offset_y'])
+        v_pos = float(trimbox['offset_y']) + (nrows-1) * v_step
         for row in range(nrows):
             log(17, 'Creating page with offset: %.2f %.2f' % (h_pos, v_pos))
             newpage = copyPage(page)
@@ -284,7 +284,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
                                                min(v_max, v_pos + v_step)))
             newpage.cropBox = newpage.artBox = newpage.trimBox
             outpdf.addPage(newpage)
-            v_pos += v_step
+            v_pos -= v_step
         h_pos += h_step
 
 def password_hook():
