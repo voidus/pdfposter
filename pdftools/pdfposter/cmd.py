@@ -43,7 +43,7 @@ def __parse_box(option, value, parser, allow_offset=False):
         raise parser.error("I don't understand your box specification %r for %s" % (value, option))
     res = m.groupdict()
     if not allow_offset and res['offset'] is not None:
-        raise parser.errot('Offset not allowed in box definition for %s' % option)
+        raise parser.error('Offset not allowed in box definition for %s' % option)
     # res['offset'] is only used for error checking, remove it
     del res['offset']
 
