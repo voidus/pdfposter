@@ -87,12 +87,12 @@ Otherwise you may install directly using setuptools/easy_install. If
 your system has network access installing `pdfposter` is a
 breeze::
 
-     easy_install pdfposter
+     easy_install pdftools.pdfposter
 
 Without network access download `pdfposter` from
 http://pypi.python.org/pypi/pdfposter and run::
 
-     easy_install pdfposter-*.tar.gz
+     easy_install pdftools.pdfposter-*.tar.gz
 
 
 More Hints on Installing setuptools
