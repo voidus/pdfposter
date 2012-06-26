@@ -62,7 +62,7 @@ General Options
 
 --version             Show program's version number and exit
 -h, --help            Show help message and exit
---help-media-names    List available media and disctance names and exit
+--help-media-names    List available media and distance names and exit
 -v, --verbose         Be verbose. Tell about scaling, rotation and number of
                       pages. Can be used more than once to increase the
                       verbosity.

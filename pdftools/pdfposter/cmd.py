@@ -76,7 +76,7 @@ def run():
     parser = optparse.OptionParser('%prog [options] InputFile OutputFile',
                                    version=__version__)
     parser.add_option('--help-media-names', action='store_true',
-                      help='List available media and disctance names')
+                      help='List available media and distance names')
     parser.add_option('-v', '--verbose', action='count', default=0,
                       help='Be verbose. Tell about scaling, rotation and number of pages. Can be used more than once to increase the verbosity. ')
     parser.add_option('-n', '--dry-run', action='store_true',
@@ -99,7 +99,7 @@ def run():
         names = papersizes.keys()
         names.sort()
         parser.print_usage()
-        print parser.formatter.format_heading('Avialable media and distance names')
+        print parser.formatter.format_heading('Available media and distance names')
         parser.formatter.indent()
         print parser.formatter.format_description(' '.join(names))
         raise SystemExit(0)
