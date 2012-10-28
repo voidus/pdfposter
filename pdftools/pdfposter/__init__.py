@@ -253,7 +253,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     posterbox: size secs of the resulting poster
     scale: scale factor (to be used instead of posterbox)
     """
-    inbox = rectangle2box(page.artBox)
+    inbox = rectangle2box(page.trimBox)
     ncols, nrows, scale, rotate = decide_num_pages(inbox, mediabox,
                                                    posterbox, scale)
     mediabox = mediabox.copy()
