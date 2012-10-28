@@ -64,7 +64,7 @@ def __parse_box(option, value, parser, allow_offset=False):
         'height'  : float(res['height'] or 1) * unit_y,
         'offset_x': float(res['offset_x'] or 0) * unit_x,
         'offset_y': float(res['offset_y'] or 0) * unit_y,
-        'unit': res['unit'],
+        'unit': unit,
         'units_x': res['width'] or 1,
         'units_y': res['height'] or 1,
         }
