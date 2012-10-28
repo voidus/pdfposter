@@ -230,12 +230,12 @@ def copyPage(page):
             newpage[NameObject(attr)] = RectangleObject(list(page[attr]))
     return newpage
 
-def _clip_pdf_page(page, pdfbox):
+def _clip_pdf_page(page, x, y, width, height):
     content = ContentStream(page["/Contents"].getObject(), page.pdf)
     content.operations[:0] = [
         ([], 'q'), # save graphic state
         ([], 'n'), # cancel path w/ filling or stroking
-        (pdfbox, 're'), # rectangle path
+        (RectangleObject((x, y, width, height)), 're'), # rectangle path
         ([], 'W*'), # clip
         ]
     content.operations.append([[], "Q"]) # restore graphic state
@@ -265,8 +265,8 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     scale: scale factor (to be used instead of posterbox)
     """
     inbox = rectangle2box(page.trimBox)
-    _clip_pdf_page(page, RectangleObject((
-        inbox['offset_x'], inbox['offset_y'], inbox['width'], inbox['height'])))
+    _clip_pdf_page(page, inbox['offset_x'], inbox['offset_y'],
+                   inbox['width'], inbox['height'])
     ncols, nrows, scale, rotate = decide_num_pages(inbox, mediabox,
                                                    posterbox, scale)
     mediabox = mediabox.copy()
