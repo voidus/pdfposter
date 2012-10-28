@@ -117,10 +117,10 @@ PAGE_BOXES = ("/MediaBox", "/CropBox", "/BleedBox", "/TrimBox", "/ArtBox")
 
 def rectangle2box(pdfbox):
     return {
-        'width'   : pdfbox.upperRight[0],
-        'height'  : pdfbox.upperRight[1],
-        'offset_x': pdfbox.lowerLeft[0],
-        'offset_y': pdfbox.lowerLeft[1],
+        'width'   : pdfbox.getUpperRight_x()-pdfbox.getLowerLeft_x(),
+        'height'  : pdfbox.getUpperRight_y()-pdfbox.getLowerLeft_y(),
+        'offset_x': pdfbox.getLowerLeft_x(),
+        'offset_y': pdfbox.getLowerLeft_y(),
         # the following are unused, but need to be set to make
         # `rotate_box()` work
         'units_x' : None,
@@ -156,8 +156,8 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
 
     rotate = False
 
-    inbox_x = float(inbox['width' ]-inbox['offset_x'])
-    inbox_y = float(inbox['height']-inbox['offset_y'])
+    inbox_x = float(inbox['width' ])
+    inbox_y = float(inbox['height'])
     log(17, 'input  dimensions: %.2f %.2f (trimbox of input page)',
             inbox_x, inbox_y)
 
