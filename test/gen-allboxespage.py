@@ -117,7 +117,9 @@ def genTestFile(filename1, filename2):
                                      x1-cutmargin, y1-cutmargin))
     page.trimBox = RectangleObject((x0+trimmargin, y0+trimmargin,
                                     x1-trimmargin, y1-trimmargin))
-    page.artBox = RectangleObject(artRect)
+    page.artBox = RectangleObject((artRect[0], artRect[1],
+                                   artRect[0]+artRect[2],
+                                   artRect[1]+artRect[3]))
     writer.addPage(page)
 
     outputStream = open(filename2, "wb")
