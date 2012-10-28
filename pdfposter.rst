@@ -68,6 +68,10 @@ General Options
                       verbosity.
 -n, --dry-run     Show what would have been done, but do not generate files.
 
+-A, --art-box     Use the content area defined by the ArtBox (default:
+                  use the area defined by the TrimBox)
+
+
 Defining Output
 -----------------
 

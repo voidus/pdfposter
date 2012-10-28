@@ -84,7 +84,12 @@ def run():
                       help='Be verbose. Tell about scaling, rotation and number of pages. Can be used more than once to increase the verbosity. ')
     parser.add_option('-n', '--dry-run', action='store_true',
                       help='Show what would have been done, but do not generate files.')
-    
+
+    parser.add_option('-A', '--art-box',
+                      action='store_true', dest='use_ArtBox',
+                      help='Use the content area defined by the ArtBox '
+                      '(default: use the area defined by the TrimBox)')
+
     group = parser.add_option_group('Define Target')
     group.add_option('-m', '--media-size',
                      default=__parse_box('-m', DEFAULT_MEDIASIZE, parser),

@@ -257,14 +257,17 @@ def _scale_pdf_page(page, factor):
     page[NameObject('/Contents')] = content
 
 
-def posterize(outpdf, page, mediabox, posterbox, scale):
+def posterize(outpdf, page, mediabox, posterbox, scale, use_ArtBox=False):
     """
     page: input page
     mediabox : size secs of the media to print on
     posterbox: size secs of the resulting poster
     scale: scale factor (to be used instead of posterbox)
     """
-    inbox = rectangle2box(page.trimBox)
+    if use_ArtBox:
+        inbox = rectangle2box(page.artBox)
+    else:
+        inbox = rectangle2box(page.trimBox)
     _clip_pdf_page(page, inbox['offset_x'], inbox['offset_y'],
                    inbox['width'], inbox['height'])
     ncols, nrows, scale, rotate = decide_num_pages(inbox, mediabox,
@@ -279,7 +282,10 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     h_step = mediabox['width']  - mediabox['offset_x']
     v_step = mediabox['height'] - mediabox['offset_y']
     
-    trimbox = rectangle2box(page.trimBox)
+    if use_ArtBox:
+        trimbox = rectangle2box(page.artBox)
+    else:
+        trimbox = rectangle2box(page.trimBox)
     h_pos = float(trimbox['offset_x'])
     h_max, v_max = float(trimbox['width']), float(trimbox['height'])
     for col in range(ncols):
@@ -327,6 +333,7 @@ def main(opts, infilename, outfilename, password_hook=password_hook):
 
     for i, page in enumerate(inpdf.pages):
         log(19, '---- processing page %i -----', i+1)
-        posterize(outpdf, page, opts.media_size, opts.poster_size, opts.scale)
+        posterize(outpdf, page, opts.media_size, opts.poster_size, opts.scale,
+                  opts.use_ArtBox)
     if not opts.dry_run:
         outpdf.write(open(outfilename, 'wb'))
