@@ -296,7 +296,7 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
             newpage.trimBox = RectangleObject((h_pos, v_pos,
                                                min(h_max, h_pos + h_step),
                                                min(v_max, v_pos + v_step)))
-            newpage.cropBox = newpage.artBox = newpage.trimBox
+            newpage.artBox = newpage.trimBox
             outpdf.addPage(newpage)
             v_pos -= v_step
         h_pos += h_step
