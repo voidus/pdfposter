@@ -109,6 +109,10 @@ def genTestFile(filename1, filename2):
     page = reader.getPage(0)
 
     x0, y0, x1, y1 = map(float, page.mediaBox)
+    assert x0 == 0
+    assert y0 == 0
+    assert round(x1, 2) == round(size[0], 2)
+    assert round(y1, 2) == round(size[1], 2)
     page.bleedBox = RectangleObject((x0+cutmargin, y0+cutmargin,
                                      x1-cutmargin, y1-cutmargin))
     page.trimBox = RectangleObject((x0+trimmargin, y0+trimmargin,
