@@ -82,6 +82,72 @@ class TextBoxes(unittest.TestCase):
         self._parse_box('1x1+10,10a4', allow_offset=True)
         self._parse_box('1x1+0,0a4', allow_offset=True)
 
+    def test_some_standard_papersizes(self):
+        box = self._parse_box('1x1a4')
+        for k, v in (
+            ('width', 595),
+            ('height', 842),
+            ('offset_x', 0),
+            ('offset_y', 0),
+            ('unit', 'a4'),
+            ('units_x', 1),
+            ('units_y', 1)):
+            self.assertBoxValue(box, k, v)
+        box = self._parse_box('a4')
+        for k, v in (
+            ('width', 595),
+            ('height', 842),
+            ('offset_x', 0),
+            ('offset_y', 0),
+            ('unit', 'a4'),
+            ('units_x', 1),
+            ('units_y', 1)):
+            self.assertBoxValue(box, k, v)
+        box = self._parse_box('1x1tabloid')
+        for k, v in (
+            ('width', 792),
+            ('height', 1224),
+            ('offset_x', 0),
+            ('offset_y', 0),
+            ('unit', 'tabloid'),
+            ('units_x', 1),
+            ('units_y', 1)):
+            self.assertBoxValue(box, k, v)
+
+    def test_multiplier(self):
+        box = self._parse_box('2x2a4')
+        for k, v in (
+            ('width', 2 * 595),
+            ('height', 2 * 842),
+            ('offset_x', 0),
+            ('offset_y', 0),
+            ('unit', 'a4'),
+            ('units_x', 2),
+            ('units_y', 2)):
+            self.assertBoxValue(box, k, v)
+        box = self._parse_box('7.2x3.5a4')
+        for k, v in (
+            ('width', 7.2 * 595),
+            ('height', 3.5 * 842),
+            ('offset_x', 0),
+            ('offset_y', 0),
+            ('unit', 'a4'),
+            ('units_x', 7.2),
+            ('units_y', 3.5)):
+            self.assertBoxValue(box, k, v)
+
+    def test_complex_box_specification(self):
+        box = self._parse_box('7.2x3.5+1.5,0.3a4', allow_offset=True)
+        for k, v in (
+            ('width', 7.2 * 595),
+            ('height', 3.5 * 842),
+            ('offset_x', 1.5 * 595),
+            ('offset_y', 0.3 * 842),
+            ('unit', 'a4'),
+            ('units_x', 7.2),
+            ('units_y', 3.5)):
+            self.assertBoxValue(box, k, v)
+
 
 if __name__ == '__main__':
     unittest.main()
