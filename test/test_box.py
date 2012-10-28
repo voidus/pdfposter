@@ -78,6 +78,10 @@ class TextBoxes(unittest.TestCase):
             ArgParserError, "I don't understand your box specification",
             self._parse_box, '1x1+a4')
 
+    def test_allowed_offset_does_not_raise(self):
+        self._parse_box('1x1+10,10a4', allow_offset=True)
+        self._parse_box('1x1+0,0a4', allow_offset=True)
+
 
 if __name__ == '__main__':
     unittest.main()
