@@ -64,6 +64,20 @@ class TextBoxes(unittest.TestCase):
             ArgParserError, "I don't understand your box specification",
             self._parse_box, '2xxx')
 
+    def test_disallowed_offset_raises(self):
+        self.assertRaisesRegexp(
+            ArgParserError, "Offset not allowed in box definition",
+            self._parse_box, '1x1+10,10a4')
+        # not even if zero
+        self.assertRaisesRegexp(
+            ArgParserError, "Offset not allowed in box definition",
+            self._parse_box, '1x1+0,0a4')
+
+    def test_missing_offset_raises(self):
+        self.assertRaisesRegexp(
+            ArgParserError, "I don't understand your box specification",
+            self._parse_box, '1x1+a4')
+
 
 if __name__ == '__main__':
     unittest.main()
