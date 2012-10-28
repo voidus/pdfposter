@@ -54,7 +54,7 @@ def __parse_box(option, value, parser, allow_offset=False):
         unit = [name for name in papersizes.keys()
                 if name.startswith(unit)]
         if len(unit) != 1:
-            parser.error('Your box spec %r for %s is not unique, give more chars.' % (res['unit'], option))
+            parser.error('Your papersize name %r for %s is not unique, give more chars.' % (res['unit'], option))
         unit = unit[0]
     unit_x, unit_y = papersizes[unit]
     res2 = {
