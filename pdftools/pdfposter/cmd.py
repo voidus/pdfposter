@@ -29,8 +29,8 @@ import pyPdf.utils
 
 # pattern for parsing user textual box spec
 pat_box = re.compile(r'''
-     ( (?P<width>  (\d*\.)? \d*) x                 # width "x" height
-       (?P<height> (\d*\.)? \d*) )? 
+     ( (?P<width>  (\d*\.)? \d+) x                 # width "x" height
+       (?P<height> (\d*\.)? \d+) )?
      (?P<offset> \+                                # "+" offset_x "," offset_y
                  (?P<offset_x> \d+\.? | \d*\.\d+)
                  ,
