@@ -121,9 +121,10 @@ def rectangle2box(pdfbox):
         'height'  : pdfbox.upperRight[1],
         'offset_x': pdfbox.lowerLeft[0],
         'offset_y': pdfbox.lowerLeft[1],
-        'unit'    : 'pt',
-        'units_x' : pdfbox.upperRight[0],
-        'units_y' : pdfbox.upperRight[1],
+        # the following are unused, but need to be set to make
+        # `rotate_box()` work
+        'units_x' : None,
+        'units_y' : None,
         }
 
 def rotate_box(box):
