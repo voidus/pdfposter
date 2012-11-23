@@ -107,7 +107,7 @@ setup(
 
     # metadata for upload to PyPI
     author = "Hartmut Goebel",
-    author_email = "h.goebel@goebel-consult.de",
+    author_email = "h.goebel@crazy-compilers.com",
     description = "Scale and tile PDF images/pages to print on multiple pages.",
     long_description = __doc__,
     license = "GPL 3.0",
