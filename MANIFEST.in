@@ -1,5 +1,6 @@
-include pdfposter.1
+include docs/*.1 docs/*.html
 include COPYING
 include README.txt
 exclude projectlogo.*
-prune docutils-manpage-writer
+exclude .gitignore .gitattributes
+global-exclude SConstruct SConscript

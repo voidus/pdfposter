@@ -3,7 +3,7 @@
 pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 """
 #
-# Copyright 2008-2009 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,10 +19,15 @@ pdftools.pdfposter - scale and tile PDF images/pages to print on multiple pages.
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
-__copyright__ = "Copyright 2008-2009 by Hartmut Goebel <h.goebel@goebel-consult.de>"
+__author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = "Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
-__version__ = "0.5.0"
+__version__ = "0.6.0"
+
+# ignore some warnings for pyPDF < 1.13
+import warnings
+warnings.filterwarnings('ignore', "the sets module is deprecated")
+warnings.filterwarnings('ignore', "the md5 module is deprecated")
 
 from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
@@ -112,13 +117,14 @@ PAGE_BOXES = ("/MediaBox", "/CropBox", "/BleedBox", "/TrimBox", "/ArtBox")
 
 def rectangle2box(pdfbox):
     return {
-        'width'   : pdfbox.upperRight[0],
-        'height'  : pdfbox.upperRight[1],
-        'offset_x': pdfbox.lowerLeft[0],
-        'offset_y': pdfbox.lowerLeft[1],
-        'unit'    : 'pt',
-        'units_x' : pdfbox.upperRight[0],
-        'units_y' : pdfbox.upperRight[1],
+        'width'   : pdfbox.getUpperRight_x()-pdfbox.getLowerLeft_x(),
+        'height'  : pdfbox.getUpperRight_y()-pdfbox.getLowerLeft_y(),
+        'offset_x': pdfbox.getLowerLeft_x(),
+        'offset_y': pdfbox.getLowerLeft_y(),
+        # the following are unused, but need to be set to make
+        # `rotate_box()` work
+        'units_x' : None,
+        'units_y' : None,
         }
 
 def rotate_box(box):
@@ -150,8 +156,8 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
 
     rotate = False
 
-    inbox_x = float(inbox['width' ]-inbox['offset_x'])
-    inbox_y = float(inbox['height']-inbox['offset_y'])
+    inbox_x = float(inbox['width' ])
+    inbox_y = float(inbox['height'])
     log(17, 'input  dimensions: %.2f %.2f (trimbox of input page)',
             inbox_x, inbox_y)
 
@@ -224,6 +230,17 @@ def copyPage(page):
             newpage[NameObject(attr)] = RectangleObject(list(page[attr]))
     return newpage
 
+def _clip_pdf_page(page, x, y, width, height):
+    content = ContentStream(page["/Contents"].getObject(), page.pdf)
+    content.operations[:0] = [
+        ([], 'q'), # save graphic state
+        ([], 'n'), # cancel path w/ filling or stroking
+        (RectangleObject((x, y, width, height)), 're'), # rectangle path
+        ([], 'W*'), # clip
+        ]
+    content.operations.append([[], "Q"]) # restore graphic state
+    page[NameObject('/Contents')] = content
+
 
 def _scale_pdf_page(page, factor):
     for boxname in PAGE_BOXES:
@@ -240,14 +257,19 @@ def _scale_pdf_page(page, factor):
     page[NameObject('/Contents')] = content
 
 
-def posterize(outpdf, page, mediabox, posterbox, scale):
+def posterize(outpdf, page, mediabox, posterbox, scale, use_ArtBox=False):
     """
     page: input page
     mediabox : size secs of the media to print on
     posterbox: size secs of the resulting poster
     scale: scale factor (to be used instead of posterbox)
     """
-    inbox = rectangle2box(page.artBox)
+    if use_ArtBox:
+        inbox = rectangle2box(page.artBox)
+    else:
+        inbox = rectangle2box(page.trimBox)
+    _clip_pdf_page(page, inbox['offset_x'], inbox['offset_y'],
+                   inbox['width'], inbox['height'])
     ncols, nrows, scale, rotate = decide_num_pages(inbox, mediabox,
                                                    posterbox, scale)
     mediabox = mediabox.copy()
@@ -260,11 +282,14 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
     h_step = mediabox['width']  - mediabox['offset_x']
     v_step = mediabox['height'] - mediabox['offset_y']
     
-    trimbox = rectangle2box(page.trimBox)
+    if use_ArtBox:
+        trimbox = rectangle2box(page.artBox)
+    else:
+        trimbox = rectangle2box(page.trimBox)
     h_pos = float(trimbox['offset_x'])
     h_max, v_max = float(trimbox['width']), float(trimbox['height'])
     for col in range(ncols):
-        v_pos = float(trimbox['offset_y'])
+        v_pos = float(trimbox['offset_y']) + (nrows-1) * v_step
         for row in range(nrows):
             log(17, 'Creating page with offset: %.2f %.2f' % (h_pos, v_pos))
             newpage = copyPage(page)
@@ -277,9 +302,9 @@ def posterize(outpdf, page, mediabox, posterbox, scale):
             newpage.trimBox = RectangleObject((h_pos, v_pos,
                                                min(h_max, h_pos + h_step),
                                                min(v_max, v_pos + v_step)))
-            newpage.cropBox = newpage.artBox = newpage.trimBox
+            newpage.artBox = newpage.trimBox
             outpdf.addPage(newpage)
-            v_pos += v_step
+            v_pos -= v_step
         h_pos += h_step
 
 def password_hook():
@@ -308,6 +333,7 @@ def main(opts, infilename, outfilename, password_hook=password_hook):
 
     for i, page in enumerate(inpdf.pages):
         log(19, '---- processing page %i -----', i+1)
-        posterize(outpdf, page, opts.media_size, opts.poster_size, opts.scale)
+        posterize(outpdf, page, opts.media_size, opts.poster_size, opts.scale,
+                  opts.use_ArtBox)
     if not opts.dry_run:
         outpdf.write(open(outfilename, 'wb'))

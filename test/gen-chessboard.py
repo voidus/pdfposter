@@ -1,7 +1,28 @@
 #!/usr/bin/env python
-# _*_ coding: UTF-8 _*_
+# -*- coding: utf-8 -*-
+#
+# Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+"""
+Generate test PDF documents for pdfcrop.
+"""
 
-"Generate test PDF documents for pdfcrop."
+__author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = "Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__licence__ = "GNU General Public License version 3 (GPL v3)"
 
 from reportlab.lib.units import mm, cm
 from reportlab.lib.colors import black, white, pink, lightblue, blue
@@ -9,7 +30,6 @@ from reportlab.lib.pagesizes import A4, legal, landscape
 from reportlab.pdfgen.canvas import Canvas
 
 
-# not used anymore
 def genTestFile(path, numPages):
     """Generate a PDF doc with a chess-board laout numbers on each page.
     Usefull for debugging cropped pages."""
@@ -21,8 +41,8 @@ def genTestFile(path, numPages):
     for i in range(numPages):
         canv.setFont("Helvetica", 7*mm)
         canv.setStrokeColor(black)
-        for x in range(size[0] / stepSize):
-            for y in range(size[1] / stepSize):
+        for x in range(int(size[0] / stepSize)):
+            for y in range(int(size[1] / stepSize)):
                 text = u"%x%x" % (x,y)
                 if (x+y) % 2 == 1:
                     canv.setFillColor(pink)
@@ -39,4 +59,13 @@ def genTestFile(path, numPages):
 
 
 if __name__ == '__main__':
-    genTestFile("chessboard.pdf", 4)
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n','--num-pages',
+                        default=1, type=int,
+                        help='number of pages to generate (default: %(default)s)')
+    parser.add_argument('filename',
+                        default="chessboard.pdf",
+                        help='Name of output file (default: %(default)s')
+    args = parser.parse_args()
+    genTestFile(args.filename, args.num_pages)

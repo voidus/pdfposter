@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. -*- mode: rst ; ispell-local-dictionary: "american" -*-
 
 ==========================
 pdfposter
@@ -8,10 +8,11 @@ pdfposter
 Scale and tile PDF images/pages to print on multiple pages.
 -------------------------------------------------------------
 
-:Author:  Hartmut Goebel <h.goebel@goebel-consult.de>
-:Version: Version 0.5.0
-:Copyright: GNU Public Licence v3 (GPLv3)
-:Homepage: http://pdfposter.origo.ethz.ch/
+:Author:    Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Version:   Version 0.6.0
+:Copyright: 2008-2013 by Hartmut Goebel
+:Licence:   GNU Public Licence v3 (GPLv3)
+:Homepage:  http://pythonhosted.org/pdftools.pdfposter/
 
 ``Pdfposter`` can be used to create a large poster by building it from
 multiple pages and/or printing it on large media. It expects as input a
@@ -25,26 +26,79 @@ with PDF. Since sometimes poster does not like your files converted
 from PDF. :-) Indeed ``pdfposter`` was inspired by ``poster``.
 
 For more information please refer to the manpage or visit
-the `project homepage <http://pdfposter.origo.ethz.ch/>`_.
+the `project homepage <http://pythonhosted.org/pdftools.pdfposter/>`_.
 
 
-Requirements
-~~~~~~~~~~~~~~~~~~~~
+Requirements and Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``Pdfposter`` requires
 
-* Python 2.x (tested with 2.5, but other versions should work, too),
-* `pyPdf <http://pybrary.net/pyPdf/>`_ > 1.10,
-* setuptools for installation (see below).
+* `Python 2.x`__ or higher (tested with 2.5 and 2.6, but other
+  versions should work, too, Python 3.x is *not* supported),
+* `setuptools`__ for installation (see below), and
+* `pyPdf`__ >= 1.11.
+
+__ http://www.python.org/download/
+__ http://pypi.python.org/pypi/setuptools
+__ http://pybrary.net/pyPdf/
 
 
-Installation
-~~~~~~~~~~~~~~~~~~~
+:Hints for installing on Windows: Following the links above you will
+   find .msi and .exe-installers. Simply install them and continue
+   with `installing pdfposter`_.
 
-Installation Requirements
-----------------------------
+:Hints for installing on GNU/Linux: Most current GNU/Linux distributions
+   provide packages for the requirements. Look for packages names like
+   `python-setuptools` and `python-pypdf`. Simply install them and
+   continue with `installing pdfposter`_.
 
-``Pdfposter`` uses setuptools for installation. Thus you need
+:Hint for installing on other platforms: Many vendors provide Python.
+   Please check your vendors software repository. Otherwise please
+   download Python 2.6 (or any higer version from the 2.x series) from
+   http://www.python.org/download/ and follow the installation
+   instructions there.
+
+   After installing Python, install `setuptools`__. You may want to
+   read `More Hints on Installing setuptools`_ first.
+
+__ http://pypi.python.org/pypi/setuptools
+
+   Using setuptools, compiling and installing the remaining
+   requirements is a piece of cake::
+
+     # if the system has network access
+     easy_install pyPdf
+
+     # without network access download pyPdf
+     # from http://pybrary.net/pyPdf/ and run
+     easy_install pyPdf-*.zip
+
+
+Installing pdfposter
+---------------------------------
+
+When you are reading this you most probably already downloaded and
+unpacked `pdfposter`. Thus installing is as easy as running::
+
+   python ./setup.py install
+
+Otherwise you may install directly using setuptools/easy_install. If
+your system has network access installing `pdfposter` is a
+breeze::
+
+     easy_install pdftools.pdfposter
+
+Without network access download `pdfposter` from
+http://pypi.python.org/pypi/pdfposter and run::
+
+     easy_install pdftools.pdfposter-*.tar.gz
+
+
+More Hints on Installing setuptools
+------------------------------------
+
+`pdfposter` uses setuptools for installation. Thus you need
 either
 
   * network access, so the install script will automatically download
@@ -52,20 +106,12 @@ either
 
 or
 
-  * the correct version of setuptools preinstalled using the `EasyInstall
-    installation instructions  <http://peak.telecommunity.com/DevCenter/EasyInstall#installation-instructions>`_. 
-    Those instructions also have tips for
-    dealing with firewalls as well as how to manually download and
-    install setuptools.
+  * the correct version of setuptools preinstalled using the
+    `EasyInstall installation instructions`__. Those instructions also
+    have tips for dealing with firewalls as well as how to manually
+    download and install setuptools.
 
-
-Installation 
--------------------------
-
-Install ``pdfposter`` by just running::
-
-   python ./setup.py install
-
+__ http://peak.telecommunity.com/DevCenter/EasyInstall#installation-instructions
 
 
 Custom Installation Locations
@@ -82,10 +128,11 @@ easier to just use::
    python ./setup.py install --home ~
 
 
-Please mind: This effects also the installation of pfPDf (and
+Please mind: This effects also the installation of pyPdf (and
 setuptools) if they are not already installed.
 
-For more information about Custom Installation Locations please
-refere to the `Custom Installation Locations Instructions
-<http://peak.telecommunity.com/DevCenter/EasyInstall#custom-installation-locations>`_.
-before installing ``pdfposter``.
+For more information about Custom Installation Locations please refer
+to the `Custom Installation Locations Instructions`__ before
+installing ``pdfposter``.
+
+__ http://peak.telecommunity.com/DevCenter/EasyInstall#custom-installation-locations>
