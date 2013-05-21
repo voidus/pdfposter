@@ -2,3 +2,5 @@ include docs/*.1 docs/*.html
 include COPYING
 include README.txt
 exclude projectlogo.*
+exclude .gitignore .gitattributes
+global-exclude SConstruct SConscript
