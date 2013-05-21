@@ -91,7 +91,7 @@ if py2exe:
 setup(
     cmdclass=cmdclass,
     name = "pdftools.pdfposter",
-    version = "0.6.0dev",
+    version = "0.6.0",
     #scripts = ['pdfposter'],
     install_requires = ['pyPdf>1.10'],
 
