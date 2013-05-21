@@ -34,12 +34,3 @@ These tools are implemented in Python and use the `pyPDF package
 * `pdfnup <http://pypi.python.org/pypi/pdfnup/>`_
 * `pdfsplit <http://pypi.python.org/pypi/pdfsplit/>`_
 * `pdfgrid <http://pypi.python.org/pypi/pdfgrid/>`_
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
