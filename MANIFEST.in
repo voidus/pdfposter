@@ -1,4 +1,4 @@
-recursive-include doc *.1 *.html
+include docs/*.1 docs/*.html
 include COPYING
 include README.txt
 exclude projectlogo.*

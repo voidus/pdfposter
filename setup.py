@@ -73,8 +73,8 @@ except ImportError:
              "Using pre-build ones.")
 
 DOCPAGES = (
-    ('manpage', 'pdfposter.rst', 'doc/pdfposter.1'),
-    ('html', 'pdfposter.rst', 'doc/pdfposter.html'),
+    ('manpage', 'pdfposter.rst', 'docs/pdfposter.1'),
+    ('html', 'pdfposter.rst', 'docs/pdfposter.html'),
     )
 
 if py2exe:

@@ -43,7 +43,7 @@ env.Export(['env'])
 env.SConscript(dirs='test')
 env.SConscript(dirs='examples')
 
-env.Command(['doc/pdfposter.1', 'doc/pdfposter.html'],
+env.Command(['docs/pdfposter.1', 'docs/pdfposter.html'],
             'pdfposter.rst',
             'python setup.py build_docs')
 
