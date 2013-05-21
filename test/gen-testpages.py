@@ -18,7 +18,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Generate test PDF documents for pdfposter
+Generate test PDF documents for pdfposter.
+
+This generates a PDF-file containing a portrait and a landscape page,
+DIN A4.
 """
 
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
@@ -34,7 +37,7 @@ def draw_numbers(canvas, numbers, size, margin, rows, cols):
     step_x = (size[0] - margin*2)/cols
     step_y = (size[1] - margin*2)/rows
     for i, n in enumerate(numbers):
-        canvas.drawCentredString(margin + step_x / 2 + step_x * (i%cols), 
+        canvas.drawCentredString(margin + step_x / 2 + step_x * (i%cols),
                 margin + step_y / 2 + ( rows - 1 - i / cols) * step_y, n)
 
 def genTestFile(filename):
@@ -50,7 +53,7 @@ def genTestFile(filename):
 
     # draw the content
     draw_numbers(canv,numbers,size,margin,3,2)
-    canv.rect(margin, margin, size[0] - margin * 2, 
+    canv.rect(margin, margin, size[0] - margin * 2,
             size[1] - margin * 2, fill=0, stroke=1)
 
     # close page
@@ -64,18 +67,18 @@ def genTestFile(filename):
 
     # draw the content
     draw_numbers(canv,numbers,size,margin,2,3)
-    canv.rect(margin, margin, size[0] - margin * 2, 
+    canv.rect(margin, margin, size[0] - margin * 2,
             size[1] - margin * 2, fill=0, stroke=1)
 
     # close page, save PDF
     canv.showPage()
-    canv.save() 
+    canv.save()
 
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename', 
+    parser.add_argument('filename',
                         help='Name of output file')
     args = parser.parse_args()
     genTestFile(args.filename)

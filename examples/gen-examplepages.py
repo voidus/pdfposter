@@ -18,7 +18,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Generate example PDF documents for pdfposter
+Generate example PDF documents for pdfposter.
+
+This generates two PDF-files:
+- a tall one (5.0 cm x 29,7 cm)
+- a wide one (29.7 cm x 5.0 cm)
+
+These pages are later used creating images for examples.
 """
 
 __author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
@@ -45,12 +51,12 @@ def genTestFile(filename_tall, filename_wide):
     # draw the content
     for i, n in enumerate(numbers):
         canv.drawCentredString(short_size/2, step*i + margin + 4*mm, n)
-    canv.rect(margin, margin, short_size - margin * 2, 
+    canv.rect(margin, margin, short_size - margin * 2,
             long_size - margin * 2, fill=0, stroke=1)
 
     # save the pdf file
     canv.showPage()
-    canv.save() 
+    canv.save()
 
     #----------- generate the wide PDF -----------
     size = (long_size, short_size)
@@ -63,20 +69,20 @@ def genTestFile(filename_tall, filename_wide):
     # draw the contents
     for i, n in enumerate(numbers):
         canv.drawCentredString(step*i + margin + step/2, margin + 6*mm, n)
-    canv.rect(margin, margin, long_size - margin * 2, 
+    canv.rect(margin, margin, long_size - margin * 2,
             short_size - margin * 2, fill=0, stroke=1)
 
     # save the pdf file
     canv.showPage()
-    canv.save() 
+    canv.save()
 
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename_tall', 
+    parser.add_argument('filename_tall',
                         help='Name of tall output file')
-    parser.add_argument('filename_wide', 
+    parser.add_argument('filename_wide',
                         help='Name of wide output file')
     args = parser.parse_args()
     genTestFile(args.filename_tall, args.filename_wide)
