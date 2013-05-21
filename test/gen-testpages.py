@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright 2013 by Elena Grandi <elena.valhalla@gmail.com>
-# Copyright 2008-2012 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2012 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ This generates a PDF-file containing a portrait and a landscape page,
 DIN A4.
 """
 
-__author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
-__copyright__ = "Copyright 2008-2012 by Hartmut Goebel <h.goebel@goebel-consult.de>"
+__author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = "Copyright 2008-2012 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
 
 from reportlab.lib.units import mm
