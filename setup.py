@@ -11,7 +11,7 @@ with PDF. Since sometimes poster does not like your files converted
 from PDF. :-) Indeed ``pdfposter`` was inspired by ``poster``.
 
 For more information please refere to the manpage or visit
-the `project homepage <http://pdfposter.origo.ethz.ch/>`_.
+the `project homepage <http://pythonhosted.org/pdftools.pdfposter/>`_.
 """
 
 import ez_setup
@@ -73,8 +73,8 @@ except ImportError:
              "Using pre-build ones.")
 
 DOCPAGES = (
-    ('manpage', 'pdfposter.rst', 'doc/pdfposter.1'),
-    ('html', 'pdfposter.rst', 'doc/pdfposter.html'),
+    ('manpage', 'pdfposter.rst', 'docs/pdfposter.1'),
+    ('html', 'pdfposter.rst', 'docs/pdfposter.html'),
     )
 
 if py2exe:
@@ -91,7 +91,7 @@ if py2exe:
 setup(
     cmdclass=cmdclass,
     name = "pdftools.pdfposter",
-    version = "0.6.0dev",
+    version = "0.6.0",
     #scripts = ['pdfposter'],
     install_requires = ['pyPdf>1.10'],
 
@@ -107,13 +107,13 @@ setup(
 
     # metadata for upload to PyPI
     author = "Hartmut Goebel",
-    author_email = "h.goebel@goebel-consult.de",
+    author_email = "h.goebel@crazy-compilers.com",
     description = "Scale and tile PDF images/pages to print on multiple pages.",
     long_description = __doc__,
     license = "GPL 3.0",
     keywords = "pdf poster",
-    url          = "http://pdfposter.origo.ethz.ch/",
-    download_url = "http://pdfposter.origo.ethz.ch/download",
+    url          = "http://pythonhosted.org/pdftools.pdfposter/",
+    download_url = "http://pypi.python.org/pypi/pdftools.pdfposter/",
     classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Environment :: Console',

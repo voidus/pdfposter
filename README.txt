@@ -8,11 +8,11 @@ pdfposter
 Scale and tile PDF images/pages to print on multiple pages.
 -------------------------------------------------------------
 
-:Author:    Hartmut Goebel <h.goebel@goebel-consult.de>
-:Version:   Version 0.6.0dev
-:Copyright: 2008-2012 by Hartmut Goebel
+:Author:    Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Version:   Version 0.6.0
+:Copyright: 2008-2013 by Hartmut Goebel
 :Licence:   GNU Public Licence v3 (GPLv3)
-:Homepage:  http://pdfposter.origo.ethz.ch/
+:Homepage:  http://pythonhosted.org/pdftools.pdfposter/
 
 ``Pdfposter`` can be used to create a large poster by building it from
 multiple pages and/or printing it on large media. It expects as input a
@@ -26,7 +26,7 @@ with PDF. Since sometimes poster does not like your files converted
 from PDF. :-) Indeed ``pdfposter`` was inspired by ``poster``.
 
 For more information please refer to the manpage or visit
-the `project homepage <http://pdfposter.origo.ethz.ch/>`_.
+the `project homepage <http://pythonhosted.org/pdftools.pdfposter/>`_.
 
 
 Requirements and Installation
@@ -87,12 +87,12 @@ Otherwise you may install directly using setuptools/easy_install. If
 your system has network access installing `pdfposter` is a
 breeze::
 
-     easy_install pdfposter
+     easy_install pdftools.pdfposter
 
 Without network access download `pdfposter` from
 http://pypi.python.org/pypi/pdfposter and run::
 
-     easy_install pdfposter-*.tar.gz
+     easy_install pdftools.pdfposter-*.tar.gz
 
 
 More Hints on Installing setuptools

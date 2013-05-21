@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 #
-# Copyright 2008-2012 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 
 Import('*')
 
+env.Command('testpages-a4.pdf', 'gen-testpages.py',
+            'python $SOURCE $TARGET')
 env.Command('testpage-a4-v.ps', 'testpages-a4.pdf',
             'pdf2ps -dFirstPage=1 -dLastPage=1 $SOURCE $TARGET')
 env.Command('testpage-a4-h.ps', 'testpages-a4.pdf',

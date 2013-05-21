@@ -6,9 +6,9 @@ pdfposter
 -------------------------------------------------------------
 Scale and tile PDF images/pages to print on multiple pages.
 -------------------------------------------------------------
-:Author:    Hartmut Goebel <h.goebel@goebel-consult.de>
+:Author:    Hartmut Goebel <h.goebel@crazy-compilers.com>
 :Version:   Version |VERSION|
-:Copyright: 2008-2012 by Hartmut Goebel
+:Copyright: 2008-2013 by Hartmut Goebel
 :Licence:   GNU Public Licence v3 (GPLv3)
 :Manual section: 1
 
@@ -181,7 +181,7 @@ EXAMPLES
   better for filled pages.
 
 More examples including sample pictures can be found at
-http://pdfposter.origo.ethz.ch/wiki/examples
+http://pythonhosted.org/pdftools.pdfposter/examples
 
 Examples for automatic scaling
 ------------------------------------
@@ -207,4 +207,4 @@ SEE ALSO
 ``pdfsplit``\(1) http://pypi.python.org/pypi/pdfsplit/,
 ``pdfgrid``\(1) http://pypi.python.org/pypi/pdfgrid/
 
-Project Homepage http://pdfposter.origo.ethz.ch/
+Project Homepage http://pythonhosted.org/pdftools.pdfposter/

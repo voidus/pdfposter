@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 #
-# Copyright 2008-2012 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,6 +50,10 @@ def postersamples(pages_h, pages_v, which,
                 " $ROTATE $TARGET",
                 P_COLS=tiles_h, ROTATE=rotate, SCALE=scale_to,
                 RANGE=page_range)
+env.Command(['testpage-tall.pdf', 'testpage-wide.pdf'],
+            'gen-examplepages.py',
+            'python $SOURCE $TARGETS')
+
 env.Command('testpage-tall.png', 'testpage-tall.pdf',
             "convert $SOURCE -background '#336699' $TARGET")
 env.Command('testpage-wide.png', 'testpage-wide.pdf',

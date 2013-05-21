@@ -8,13 +8,15 @@
 /*.egg-info
 /.sconsign.dblite
 
+
 /bin
 /projectlogo.ico
 /projectlogo.png
 
-# /doc/
-/doc/*.1
-/doc/*.html
+# /docs/
+/docs/*.1
+/docs/*.html
+/docs/_build
 
 # /examples/
 /examples/poster-wide-*.png

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright 2012 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2012-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__ = "Hartmut Goebel <h.goebel@goebel-consult.de>"
-__copyright__ = "Copyright 2012 by Hartmut Goebel <h.goebel@goebel-consult.de>"
+__author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = "Copyright 2012-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __licence__ = "GNU General Public License version 3 (GPL v3)"
 
 import unittest

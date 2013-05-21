@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 #
-# Copyright 2008-2012 by Hartmut Goebel <h.goebel@goebel-consult.de>
+# Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ env.Export(['env'])
 env.SConscript(dirs='test')
 env.SConscript(dirs='examples')
 
-env.Command(['doc/pdfposter.1', 'doc/pdfposter.html'],
+env.Command(['docs/pdfposter.1', 'docs/pdfposter.html'],
             'pdfposter.rst',
             'python setup.py build_docs')
 
