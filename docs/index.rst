@@ -3,7 +3,10 @@
 Welcome to pdftools.PDFposter's documentation!
 ==============================================
 
-*Scale and tile PDF images/pages to print on multiple pages.*
+.. container:: admonition topic
+
+  **Scale and tile PDF images/pages to print on multiple pages.**
+
 
 `Pdfposter` can be used to create a large poster by building it from
 multiple pages and/or printing it on large media. It expects as input a
