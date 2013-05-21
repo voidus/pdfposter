@@ -8,6 +8,8 @@
 /*.egg-info
 /.sconsign.dblite
 
+/docs/_build
+
 /bin
 /projectlogo.ico
 /projectlogo.png
