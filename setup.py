@@ -11,7 +11,7 @@ with PDF. Since sometimes poster does not like your files converted
 from PDF. :-) Indeed ``pdfposter`` was inspired by ``poster``.
 
 For more information please refere to the manpage or visit
-the `project homepage <http://pdfposter.origo.ethz.ch/>`_.
+the `project homepage <http://pythonhosted.org/pdftools.pdfposter/>`_.
 """
 
 import ez_setup
@@ -112,8 +112,8 @@ setup(
     long_description = __doc__,
     license = "GPL 3.0",
     keywords = "pdf poster",
-    url          = "http://pdfposter.origo.ethz.ch/",
-    download_url = "http://pdfposter.origo.ethz.ch/download",
+    url          = "http://pythonhosted.org/pdftools.pdfposter/",
+    download_url = "http://pypi.python.org/pypi/pdftools.pdfposter/",
     classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Environment :: Console',

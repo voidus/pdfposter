@@ -851,7 +851,7 @@
           <dc:date />
         </cc:license>
         <dc:language>en</dc:language>
-        <dc:source>http://pfdposter.origo.ethz.ch</dc:source>
+        <dc:source>http://pythonhosted.org/pdftools.pdfposter/</dc:source>
         <dc:contributor>
           <cc:Agent>
             <dc:title>Based on an Etiquette Icon by Andy Fitzsimon</dc:title>

@@ -181,7 +181,7 @@ EXAMPLES
   better for filled pages.
 
 More examples including sample pictures can be found at
-http://pdfposter.origo.ethz.ch/wiki/examples
+http://pythonhosted.org/pdftools.pdfposter/examples
 
 Examples for automatic scaling
 ------------------------------------
@@ -207,4 +207,4 @@ SEE ALSO
 ``pdfsplit``\(1) http://pypi.python.org/pypi/pdfsplit/,
 ``pdfgrid``\(1) http://pypi.python.org/pypi/pdfgrid/
 
-Project Homepage http://pdfposter.origo.ethz.ch/
+Project Homepage http://pythonhosted.org/pdftools.pdfposter/
