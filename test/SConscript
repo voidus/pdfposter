@@ -23,6 +23,8 @@
 
 Import('*')
 
+env.Command('testpages-a4.pdf', 'gen-testpages.py',
+            'python $SOURCE $TARGET')
 env.Command('testpage-a4-v.ps', 'testpages-a4.pdf',
             'pdf2ps -dFirstPage=1 -dLastPage=1 $SOURCE $TARGET')
 env.Command('testpage-a4-h.ps', 'testpages-a4.pdf',
