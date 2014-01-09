@@ -1,6 +1,15 @@
 #!/bin/bash
 #
-# Usage example:
+# Usage:
+#  make-thumbs.sh [options] COLUMNS PDFFILENAME
+#
+# Options:
+#   -p... will be passed to pdfposter
+#   -m... will be passed to pdfposter
+#   -A    will be passed to pdfposter (--art-box)
+#   -R    rotate page-thumbs prior to montaging the image
+#
+# Example:
 #    make-thumbs.sh -p2x2A4    2 test/allboxes.pdf
 #    make-thumbs.sh -p3x2A4 -R 2 test/allboxes.pdf
 #
