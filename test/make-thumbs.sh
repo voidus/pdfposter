@@ -54,7 +54,7 @@ pdftoppm -png -scale-to $SCALE $bname-1.pdf $bname-1
 inpngs=( $bname-1*.png )
 
 rows=$(( ${#inpngs[@]} / cols ))
-outname=$(dirname "$pdfname")/$(basename "$bname-${rows}x${cols}.png")
+outname="$bname-${rows}x${cols}.png"
 
 cnt=0 ; i=0 ; r=0
 while [ $cnt -lt ${#inpngs[@]} ] ; do
