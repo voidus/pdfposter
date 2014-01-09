@@ -56,6 +56,10 @@ inpngs=( $bname-1*.png )
 rows=$(( ${#inpngs[@]} / cols ))
 outname="$bname-${rows}x${cols}.png"
 
+if [ "$rows" -eq 1 -a "$cols" -eq 1 ] ; then
+    BORDER=$((BORDER*2))
+fi
+
 montage "${inpngs[@]}" $rotate -geometry +$BORDER+$BORDER \
     -background $BGCOLOR -tile 1x${rows} miff:- \
     | convert - +append miff:- \
