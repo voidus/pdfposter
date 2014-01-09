@@ -56,26 +56,9 @@ inpngs=( $bname-1*.png )
 rows=$(( ${#inpngs[@]} / cols ))
 outname="$bname-${rows}x${cols}.png"
 
-cnt=0 ; i=0 ; r=0
-while [ $cnt -lt ${#inpngs[@]} ] ; do
-    #echo $cnt $i $r
-    outpngs=( "${outpngs[@]}" "${inpngs[$i]}" )
-    cnt=$((cnt+1))
-    if [ -z "$rotate" ] ; then
-	i=$((i+cols))
-    else
-	i=$((i+rows))
-    fi
-    if [ $i -ge ${#inpngs[@]} ] ; then
-	r=$((r+1))
-	i=$r
-    fi
-done
-
-#echo "${outpngs[@]}"
-
-montage "${outpngs[@]}" $rotate -geometry +$BORDER+$BORDER \
-    -background $BGCOLOR -tile ${cols}x miff:- \
+montage "${inpngs[@]}" $rotate -geometry +$BORDER+$BORDER \
+    -background $BGCOLOR -tile 1x${rows} miff:- \
+    | convert - +append miff:- \
     | montage - -geometry +$BORDER+$BORDER -background $BGCOLOR "$outname"
 
 rm $bname-1*.png
