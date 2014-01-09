@@ -47,11 +47,12 @@ pdfname="${1:?Required argument PDFFILENAME missing}"
 declare -a inpngs outpngs
 
 bname=$TMP/$(basename "$pdfname" .pdf)
+tmpname=$TMP/tmp-$$-$(basename "$pdfname" .pdf)
 
-./pdfposter $posterargs $pdfname $bname-1.pdf
+./pdfposter $posterargs $pdfname $tmpname.pdf
 
-pdftoppm -png -scale-to $SCALE $bname-1.pdf $bname-1
-inpngs=( $bname-1*.png )
+pdftoppm -png -scale-to $SCALE $tmpname.pdf $tmpname
+inpngs=( $tmpname*.png )
 
 rows=$(( ${#inpngs[@]} / cols ))
 outname="$bname-${rows}x${cols}.png"
@@ -65,5 +66,5 @@ montage "${inpngs[@]}" $rotate -geometry +$BORDER+$BORDER \
     | convert - +append miff:- \
     | montage - -geometry +$BORDER+$BORDER -background $BGCOLOR "$outname"
 
-rm $bname-1*.png
+rm $tmpname-*.png
 echo created $outname
