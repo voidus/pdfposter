@@ -41,8 +41,8 @@ while getopts "Ap:m:R" opt; do
 done
 
 shift $((OPTIND-1))
-cols="$1" ; shift
-pdfname="$1"
+cols="${1:?Required argument COLUMNS missing}" ; shift
+pdfname="${1:?Required argument PDFFILENAME missing}"
 
 declare -a inpngs outpngs
 
