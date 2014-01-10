@@ -145,9 +145,9 @@ def genTestFile(filename):
         # size, draw, set, title
         [A4, 1, 1, 1, 1,0, 'Full size'],
         [(A4[0]/2, A4[1]), 1, 1, 1,1,0, 'Half width'],
-        [(A4[0]/2, A4[1]), 0, 0, 1,1,1, 'Half width'],
+        [(A4[0]/2, A4[1]), 1, 1, 1,1,1, 'Half width'],
         [(A4[0]/2, A4[1]), 1, 1, 0,0,0, 'Half width'],
-        [(A4[0]/2, A4[1]), 0, 0, 0,0,1, 'Half width'],
+        [(A4[0]/2, A4[1]), 1, 1, 0,0,1, 'Half width'],
         )
     #--- draw the content
     for args in CASES:
