@@ -115,11 +115,12 @@ def genTestFile(filename):
 
         # save the pdf file
         canv.showPage()
+        return artRect
 
     def set_boxes(pageNum, size,
                 draw_trimbox, draw_bleedbox,
                 set_trimbox, set_bleedbox, set_artbox,
-                title):
+                title, artRect):
         page = reader.getPage(pageNum)
         print 'Page', i, size
         if set_bleedbox:
@@ -142,15 +143,15 @@ def genTestFile(filename):
 
     CASES = (
         # size, draw, set, title
-        (A4, 1, 1, 1, 1,0,'Full size'),
-        ((A4[0]/2, A4[1]), 1, 1, 1,1,0, 'Half width'),
-        ((A4[0]/2, A4[1]), 0, 0, 1,1,0, 'Half width'),
-        ((A4[0]/2, A4[1]), 1, 1, 0,0,0, 'Half width'),
-        ((A4[0]/2, A4[1]), 0, 0, 0,0,0, 'Half width'),
+        [A4, 1, 1, 1, 1,0, 'Full size'],
+        [(A4[0]/2, A4[1]), 1, 1, 1,1,0, 'Half width'],
+        [(A4[0]/2, A4[1]), 0, 0, 1,1,1, 'Half width'],
+        [(A4[0]/2, A4[1]), 1, 1, 0,0,0, 'Half width'],
+        [(A4[0]/2, A4[1]), 0, 0, 0,0,1, 'Half width'],
         )
     #--- draw the content
     for args in CASES:
-        genpage(canv, *args)
+        args.append(genpage(canv, *args))
     #canv.save() 
     pdfdata = canv.getpdfdata()
     
