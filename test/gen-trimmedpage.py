@@ -17,7 +17,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Generate test PDF documents for pdfposter
+Generate a test PDF documents for pdfposter with more complex trimmed
+
+This generates a PDF-file containing some DIN A4 pages with different
+trim-boxes and content drawn outside the trim-box. The pages are
+useful for checking if clipping works as expected.
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"

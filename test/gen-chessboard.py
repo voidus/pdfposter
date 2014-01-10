@@ -17,7 +17,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Generate test PDF documents for pdfcrop.
+Generate a test PDF document for pdfposter with a chessboard drawn on.
+
+The page will be DIN A4 with a chessboard drawn on. It is useful for
+checking number of pages and orientation.
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"

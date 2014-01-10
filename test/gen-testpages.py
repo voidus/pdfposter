@@ -18,10 +18,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Generate test PDF documents for pdfposter.
+Generate a test PDF documents for pdfposter.
 
-This generates a PDF-file containing a portrait and a landscape page,
-DIN A4.
+This generates a PDF-file containing two DIN A4 pages, a portrait one
+and a landscape one page, with big numbers on. It is useful for
+checking number of pages and orientation.
+
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"

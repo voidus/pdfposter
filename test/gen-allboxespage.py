@@ -17,7 +17,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Generate test PDF documents for pdfposter
+Generate test PDF documents for pdfposter with all boxes drawn and set.
+
+The first page will be a DIN A4 with some content and all the standard
+PDF boxes (media, bleed, trim, art) drawn and set. The second file
+will have the same content, except that only the media-box is set and
+all other boxes not set at all. This is useful for checking if
+clipping works as expected with and without option `--art-box`.
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
