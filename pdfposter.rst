@@ -68,6 +68,13 @@ General Options
                       verbosity.
 -n, --dry-run     Show what would have been done, but do not generate files.
 
+
+Defining Input
+-----------------
+
+-f, --first       First page to convert (default: first page).
+-l, --last        Last page to convert (default: last page).
+
 -A, --art-box     Use the content area defined by the ArtBox (default:
                   use the area defined by the TrimBox)
 

@@ -85,10 +85,17 @@ def run():
     parser.add_option('-n', '--dry-run', action='store_true',
                       help='Show what would have been done, but do not generate files.')
 
-    parser.add_option('-A', '--art-box',
-                      action='store_true', dest='use_ArtBox',
-                      help='Use the content area defined by the ArtBox '
-                      '(default: use the area defined by the TrimBox)')
+    group = parser.add_option_group('Define Input')
+    group.add_option('-f', '--first', type=int, dest='first_page',
+                     metavar='INTEGER',
+                     help='First page to convert (default: first page)')
+    group.add_option('-l', '--last', type=int, dest='last_page',
+                     metavar='INTEGER',
+                     help='Last page to convert (default: last page)')
+    group.add_option('-A', '--art-box',
+                     action='store_true', dest='use_ArtBox',
+                     help='Use the content area defined by the ArtBox '
+                     '(default: use the area defined by the TrimBox)')
 
     group = parser.add_option_group('Define Target')
     group.add_option('-m', '--media-size',

@@ -23,9 +23,9 @@ BGCOLOR=bisque2
 BORDER=3
 
 posterargs=
-while getopts "Ap:m:R" opt; do
+while getopts "Ap:m:f:l:R" opt; do
     case $opt in
-	p|m)
+	p|m|f|l)
 	    posterargs="$posterargs -$opt$OPTARG"
 	    ;;
 	A)
