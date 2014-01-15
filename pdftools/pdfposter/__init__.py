@@ -234,9 +234,9 @@ def _clip_pdf_page(page, x, y, width, height):
     content = ContentStream(page["/Contents"].getObject(), page.pdf)
     content.operations[:0] = [
         ([], 'q'), # save graphic state
-        ([], 'n'), # cancel path w/ filling or stroking
         (RectangleObject((x, y, width, height)), 're'), # rectangle path
         ([], 'W*'), # clip
+        ([], 'n'), # cancel path w/ filling or stroking
         ]
     content.operations.append([[], "Q"]) # restore graphic state
     page[NameObject('/Contents')] = content
