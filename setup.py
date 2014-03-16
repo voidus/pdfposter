@@ -93,7 +93,7 @@ setup(
     name = "pdftools.pdfposter",
     version = "0.6.1dev",
     #scripts = ['pdfposter'],
-    install_requires = ['pyPdf>1.10'],
+    install_requires = ['PyPdf2'],
 
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['pdftools'],

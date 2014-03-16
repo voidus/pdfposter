@@ -24,12 +24,7 @@ __copyright__ = "Copyright 2008-2013 by Hartmut Goebel <h.goebel@crazy-compilers
 __licence__ = "GNU General Public License version 3 (GPL v3)"
 __version__ = "0.6.1dev"
 
-# ignore some warnings for pyPDF < 1.13
-import warnings
-warnings.filterwarnings('ignore', "the sets module is deprecated")
-warnings.filterwarnings('ignore', "the md5 module is deprecated")
-
-from pyPdf.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
+from PyPdf2.pdf import PdfFileWriter, PdfFileReader, PageObject, getRectangle, \
      ArrayObject, ContentStream, NameObject, FloatObject, RectangleObject
 
 import logging
@@ -221,7 +216,7 @@ def decide_num_pages(inbox, mediabox, posterbox, scale=None):
 
 
 def copyPage(page):
-    from pyPdf.pdf import RectangleObject, NameObject
+    from PyPdf2.pdf import RectangleObject, NameObject
     newpage = PageObject(page.pdf)
     newpage.update(page)
     # Copy Rectangles to be manipulatable

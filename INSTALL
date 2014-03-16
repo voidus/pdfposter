@@ -17,7 +17,7 @@ Requirements
 ``Pdfposter`` requires
 
 * Python 2.x (tested with 2.5, but other versions should work, too),
-* `pyPdf <http://pybrary.net/pyPdf/>`_ > 1.10,
+* `PyPdf2 <http://mstamy2.github.io/PyPDF2/>,
 * setuptools for installation (see below).
 
 
@@ -66,7 +66,7 @@ easier to just use::
    # install to your Home directory (~/bin)
    python ./setup.py install --home ~
 
-Please mind: This effects also the installation of pyPdf (and
+Please mind: This effects also the installation of PyPdf2 (and
 setuptools) if they are not already installed.
 
 For more information about Custom Installation Locations please refer

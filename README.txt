@@ -37,11 +37,11 @@ Requirements and Installation
 * `Python 2.x`__ or higher (tested with 2.5 and 2.6, but other
   versions should work, too, Python 3.x is *not* supported),
 * `setuptools`__ for installation (see below), and
-* `pyPdf`__ >= 1.11.
+* `pyPdf2`.
 
 __ http://www.python.org/download/
 __ http://pypi.python.org/pypi/setuptools
-__ http://pybrary.net/pyPdf/
+__ http://mstamy2.github.io/PyPDF2/
 
 
 :Hints for installing on Windows: Following the links above you will
@@ -50,7 +50,7 @@ __ http://pybrary.net/pyPdf/
 
 :Hints for installing on GNU/Linux: Most current GNU/Linux distributions
    provide packages for the requirements. Look for packages names like
-   `python-setuptools` and `python-pypdf`. Simply install them and
+   `python-setuptools` and `python-pypdf2`. Simply install them and
    continue with `installing pdfposter`_.
 
 :Hint for installing on other platforms: Many vendors provide Python.
@@ -68,11 +68,11 @@ __ http://pypi.python.org/pypi/setuptools
    requirements is a piece of cake::
 
      # if the system has network access
-     easy_install pyPdf
+     easy_install PyPdf2
 
-     # without network access download pyPdf
-     # from http://pybrary.net/pyPdf/ and run
-     easy_install pyPdf-*.zip
+     # without network access download PyPdf2
+     # from http://mstamy2.github.io/PyPDF2/ and run
+     easy_install PyPdf2-*.zip
 
 
 Installing pdfposter
@@ -128,7 +128,7 @@ easier to just use::
    python ./setup.py install --home ~
 
 
-Please mind: This effects also the installation of pyPdf (and
+Please mind: This effects also the installation of PyPdf2 (and
 setuptools) if they are not already installed.
 
 For more information about Custom Installation Locations please refer

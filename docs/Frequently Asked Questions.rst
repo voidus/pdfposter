@@ -38,10 +38,7 @@ Frequently Asked Questions
 
 * Are there other Python tools for manipulating PDF?
 
-  Yes, there are: These tools even use the `pyPDF package
-  <http://pybrary.net/pyPdf/>`_ as pdfposter does. Thus installing
-  them will only require a small amount of disk space.
-
+  Yes, there are:
   * `pdfnup <http://pypi.python.org/pypi/pdfnup/>`_
   * `pdfsplit <http://pypi.python.org/pypi/pdfsplit/>`_
   * `pdfgrid <http://pypi.python.org/pypi/pdfgrid/>`_

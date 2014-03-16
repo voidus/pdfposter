@@ -31,9 +31,6 @@ Contents:
 Other tools for manipulating PDF
 ------------------------------------
 
-These tools are implemented in Python and use the `pyPDF package
-<http://pybrary.net/pyPdf/>`_ as `pdfposter` does.
-
 * `pdfnup <http://pypi.python.org/pypi/pdfnup/>`_
 * `pdfsplit <http://pypi.python.org/pypi/pdfsplit/>`_
 * `pdfgrid <http://pypi.python.org/pypi/pdfgrid/>`_

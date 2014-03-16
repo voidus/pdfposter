@@ -38,8 +38,8 @@ from reportlab.lib.colors import black, white, pink, lightblue, blue
 from reportlab.lib.pagesizes import A4, legal, landscape
 from reportlab.pdfgen.canvas import Canvas
 
-from pyPdf import PdfFileWriter, PdfFileReader
-from pyPdf.generic import RectangleObject
+from PyPdf2 import PdfFileWriter, PdfFileReader
+from PyPdf2.generic import RectangleObject
 
 def draw_box(canvas, color, x,y, width,height, text=None):
     canvas.setStrokeColorRGB(*color)

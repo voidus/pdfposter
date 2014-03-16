@@ -25,7 +25,7 @@ __licence__ = "GNU General Public License version 3 (GPL v3)"
 
 from . import main, __version__, DEFAULT_MEDIASIZE, papersizes, DecryptionError
 import re
-import pyPdf.utils
+import PyPdf2.utils
 
 # pattern for parsing user textual box spec
 pat_box = re.compile(r'''
@@ -136,7 +136,7 @@ def run():
         main(opts, *args)
     except DecryptionError, e:
         raise SystemExit(str(e))
-    except pyPdf.utils.PdfReadError:
+    except PyPdf2.utils.PdfReadError:
         parser.error('The input-file is either currupt or no PDF at all.')
 
 
